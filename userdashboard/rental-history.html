@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rental History - WheelsToHire</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <style>
+        body {
+            background: #36454f;
+            color: #E0E0E0;
+        }
+
+        .profile-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            background: #1f2022;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border-radius: 20px;
+        }
+
+        .profile-sidebar {
+            background: #1f2022;
+            padding: 2rem;
+            border-radius: 15px;
+            height: fit-content;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-info {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            border: 3px solid #646cff;
+            padding: 3px;
+        }
+
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-email {
+            color: #9a8989;
+            font-size: 0.9rem;
+        }
+
+        .profile-menu {
+            list-style: none;
+            padding: 0;
+        }
+
+        .profile-menu li {
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 1rem;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .profile-menu a:hover {
+            background: rgba(100, 108, 255, 0.1);
+            color: #646cff;
+        }
+
+        .profile-menu a.active {
+            background: #646cff;
+            color: white;
+        }
+
+        .profile-content {
+            background: #1f2022;
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .page-title {
+            color: #E0E0E0;
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .rental-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: transparent;
+            color: #E0E0E0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background: #646cff;
+            border-color: #646cff;
+        }
+
+        .rental-card {
+            background: #1f2022;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .rental-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .rental-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .rental-title {
+            color: #E0E0E0;
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        .rental-status {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .status-active {
+            background: rgba(46, 213, 115, 0.1);
+            color: #2ed573;
+        }
+
+        .status-completed {
+            background: rgba(255, 159, 67, 0.1);
+            color: #ff9f43;
+        }
+
+        .status-cancelled {
+            background: rgba(255, 71, 87, 0.1);
+            color: #ff4757;
+        }
+
+        .rental-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .detail-label {
+            color: #9a8989;
+            font-size: 0.9rem;
+        }
+
+        .detail-value {
+            color: #E0E0E0;
+            font-size: 1rem;
+        }
+
+        .rental-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .view-details {
+            background: #646cff;
+            color: white;
+        }
+
+        .download-invoice {
+            background: transparent;
+            border: 1px solid #646cff;
+            color: #646cff;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Navigation styles */
+        header {
+            background: #36454f;
+        }
+
+        nav {
+            background: #36454f !important;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .nav__header {
+            background: #36454f;
+        }
+
+        .nav__links {
+            background: #36454f;
+        }
+
+        .nav__btns {
+            background: #36454f;
+        }
+
+        .dropdown-menu {
+            background: #36454f;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-menu a {
+            color: #ffffff;
+        }
+
+        .dropdown-menu a:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .section-title {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .rental-card {
+            background: #1f2022;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .rental-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .rental-title {
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .rental-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .status-active {
+            background: rgba(46, 213, 115, 0.1);
+            color: #2ed573;
+        }
+
+        .status-completed {
+            background: rgba(52, 152, 219, 0.1);
+            color: #3498db;
+        }
+
+        .status-cancelled {
+            background: rgba(255, 71, 87, 0.1);
+            color: #ff4757;
+        }
+
+        .rental-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            color: #9a8989;
+            font-size: 0.9rem;
+        }
+
+        .rental-amount {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .loading-skeleton {
+            background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 4px;
+            height: 20px;
+            margin-bottom: 10px;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .no-rentals {
+            text-align: center;
+            padding: 2rem;
+            color: #9a8989;
+        }
+
+        .rental-actions {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 1rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            background: #646cff;
+            color: white;
+        }
+
+        .action-btn:hover {
+            background: #535bf2;
+        }
+
+        .action-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .action-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: transparent;
+            color: #E0E0E0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .filter-btn.active {
+            background: #646cff;
+            border-color: #646cff;
+            color: white;
+        }
+
+        .rental-card {
+            background: #1f2022;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .rental-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .rental-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .rental-title {
+            color: #E0E0E0;
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        .rental-date {
+            color: #9a8989;
+            font-size: 0.9rem;
+        }
+
+        .rental-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .rental-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .info-label {
+            color: #9a8989;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            color: #E0E0E0;
+            font-size: 1.1rem;
+        }
+
+        .rental-amount {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2ed573;
+        }
+
+        .rental-status {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .view-details-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #646cff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            margin-top: 1rem;
+        }
+
+        .view-details-btn:hover {
+            background: #535bf2;
+            transform: translateY(-2px);
+        }
+
+        .cancel-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            margin-top: 1rem;
+            margin-left: 1rem;
+        }
+
+        .cancel-btn:hover {
+            background: #ff6b81;
+            transform: translateY(-2px);
+        }
+
+        .cancel-btn:disabled {
+            background: #ff4757;
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #1f2022;
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 400px;
+            width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-header {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-title {
+            color: #E0E0E0;
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        .modal-body {
+            margin-bottom: 1.5rem;
+            color: #9a8989;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
+            padding: 0.5rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .modal-btn.cancel {
+            background: #ff4757;
+            color: white;
+            border: none;
+        }
+
+        .modal-btn.cancel:hover {
+            background: #ff6b81;
+        }
+
+        .modal-btn.close {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #E0E0E0;
+        }
+
+        .modal-btn.close:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body style="background: #36454f;">
+    <header>
+        <nav style="border-bottom: 2px solid rgba(255, 255, 255, 0.1); background: #36454f;">
+            <div class="nav__header">
+                <div class="nav__logo">
+                    <a href="#" class="logo" style="color: #E0E0E0;">
+                        <img src="../assets/logo-white.png" alt="logo" class="logo-white" style="width: 100px; height: auto; display: block;" />
+                        <span style="color: #E0E0E0;">WheelsToHire.in</span>
+                    </a>
+                </div>
+                <div class="nav__menu__btn" id="menu-btn">
+                    <i class="ri-menu-line" style="color: #E0E0E0;"></i>
+                </div>
+            </div>
+            <ul class="nav__links" id="nav-links" style="color: #E0E0E0;">
+                <li><a href="userdashboard.html" style="color: #E0E0E0; transition: all 0.3s ease; position: relative;"><i class="ri-home-4-line"></i> Home</a></li>
+                <li><a href="deals.html" style="color: #E0E0E0; transition: all 0.3s ease; position: relative;"><i class="ri-car-line"></i> Rental Deals</a></li>
+            </ul>
+            <div class="nav__btns" style="position: relative;">
+                <div class="dropdown" style="position: relative;">
+                    <button class="btn dropdown-btn" id="account-btn" style="display: flex; align-items: center; gap: 5px; background: linear-gradient(135deg, #3498db, #2980b9); border: none; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); transition: all 0.3s ease; color: white; cursor: pointer;">
+                        <i class="ri-user-3-line"></i> Account
+                    </button>
+                    <ul class="dropdown-menu" id="account-menu" style="display: none; position: absolute; right: 0; top: 100%; background: #36454f; border: 1px solid rgba(255, 255, 255, 0.1); min-width: 120px; padding: 0.2rem 0; border-radius: 6px; z-index: 99999; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); margin-top: 5px;">
+                        <li><a href="#" id="logout-btn" style="color: #ffffff; display: flex; align-items: center; gap: 6px; padding: 0.4rem 0.6rem; transition: all 0.3s ease; text-decoration: none; font-size: 0.85rem;"><i class="ri-logout-box-line"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="profile-container">
+        <div class="profile-sidebar">
+            <div class="profile-info">
+                <div class="profile-pic">
+                    <img src="../assets/logo-white.png" alt="Profile Picture">
+                </div>
+                <h2 class="profile-name">Loading...</h2>
+                <p class="profile-email">Loading...</p>
+            </div>
+            <ul class="profile-menu">
+                <li><a href="profile.html"><i class="ri-user-line"></i> Personal Information</a></li>
+                <li><a href="rental-history.html" class="active"><i class="ri-history-line"></i> Rental History</a></li>
+                <li><a href="payment-history.html"><i class="ri-money-dollar-circle-line"></i> Payment History</a></li>
+                <li><a href="payment-methods.html"><i class="ri-bank-card-line"></i> Payment Methods</a></li>
+            </ul>
+        </div>
+
+        <div class="profile-content">
+            <div class="page-header">
+                <h1 class="page-title">Rental History</h1>
+            </div>
+
+            <section id="rental-history">
+                <h2 class="section-title">Rental History</h2>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-status="all">All</button>
+                    <button class="filter-btn" data-status="active">Active</button>
+                    <button class="filter-btn" data-status="completed">Completed</button>
+                    <button class="filter-btn" data-status="cancelled">Cancelled</button>
+                </div>
+                <div id="rentals-container">
+                    <!-- Loading skeleton -->
+                    <div class="rental-card">
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                    </div>
+                    <div class="rental-card">
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Cancel Confirmation Modal -->
+    <div id="cancelModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Cancel Rental</h3>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to cancel this rental? This action cannot be undone.</p>
+                <p style="color: #ff4757; margin-top: 1rem;"><strong>Important:</strong> The booking amount (25%) is non-refundable as per our cancellation policy.</p>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-btn close" id="closeModal">Close</button>
+                <button class="modal-btn cancel" id="confirmCancel">Cancel Rental</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js';
+        import { getFirestore, collection, query, where, getDocs, doc, getDoc, updateDoc, serverTimestamp, orderBy } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js';
+
+        window.addEventListener('pageshow', (event) => {
+            if (event.persisted) {
+                console.log('Page restored from bfcache.');
+            }
+            // Firebase configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyBdnjbQsoM_C4UjiEIRjLPYlVE3RudyA10",
+                authDomain: "carrent-853d4.firebaseapp.com",
+                databaseURL: "https://carrent-853d4-default-rtdb.firebaseio.com",
+                projectId: "carrent-853d4",
+                storageBucket: "carrent-853d4.firebasestorage.app",
+                messagingSenderId: "452122312279",
+                appId: "1:452122312279:web:1efeadd0e949ac9d3eed12",
+                measurementId: "G-W2S2QJ0NNE"
+            };
+
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            const db = getFirestore(app);
+
+            // Function to load user data
+            async function loadUserData(userId) {
+                try {
+                    const userDoc = await getDoc(doc(db, 'users', userId));
+                    if (userDoc.exists()) {
+                        const userData = userDoc.data();
+                        document.querySelector('.profile-name').textContent = userData.fullName || 'User';
+                        document.querySelector('.profile-email').textContent = userData.email || '';
+                        
+                        if (userData.profilePicture) {
+                            document.querySelector('.profile-pic img').src = userData.profilePicture;
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error loading user data:', error);
+                }
+            }
+
+            // Function to format currency
+            function formatCurrency(amount) {
+                return new Intl.NumberFormat('en-IN', {
+                    style: 'currency',
+                    currency: 'INR',
+                    minimumFractionDigits: 0
+                }).format(amount);
+            }
+
+            // Function to format date
+            function formatDate(dateString) {
+                if (!dateString) return 'N/A';
+                const options = { year: 'numeric', month: 'short', day: 'numeric' };
+                return new Date(dateString).toLocaleDateString('en-US', options);
+            }
+
+            // Function to load rental history
+            async function loadRentalHistory(userId, status = 'all') {
+                const rentalsContainer = document.getElementById('rentals-container');
+                try {
+                    const bookingsRef = collection(db, 'bookings');
+                    let q;
+                    
+                    if (status !== 'all') {
+                        q = query(bookingsRef, 
+                            where('userId', '==', userId),
+                            where('status', '==', status)
+                        );
+                    } else {
+                        q = query(bookingsRef, 
+                            where('userId', '==', userId)
+                        );
+                    }
+                    
+                    const querySnapshot = await getDocs(q);
+                    const rentals = [];
+
+                    querySnapshot.forEach((doc) => {
+                        rentals.push({ id: doc.id, ...doc.data() });
+                    });
+
+                    // Sort rentals by booking date in descending order
+                    rentals.sort((a, b) => {
+                        const dateA = new Date(a.bookingDate);
+                        const dateB = new Date(b.bookingDate);
+                        return dateB - dateA;
+                    });
+
+                    if (rentals.length === 0) {
+                        rentalsContainer.innerHTML = `
+                            <div class="no-rentals">
+                                <i class="ri-car-line"></i>
+                                <h3>No Rentals Found</h3>
+                                <p>${status === 'all' ? 'You haven\'t made any rentals yet.' : 
+                                    `You don't have any ${status} rentals.`}</p>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    let rentalsHTML = '';
+                    rentals.forEach((rental) => {
+                        const rentalDate = new Date(rental.bookingDate).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        });
+
+                        const statusClass = rental.status === 'active' ? 'status-active' : 
+                                          rental.status === 'completed' ? 'status-completed' : 'status-cancelled';
+
+                        const canCancel = rental.status === 'active' && new Date(rental.pickupDate) > new Date();
+
+                        rentalsHTML += `
+                            <div class="rental-card">
+                                <div class="rental-header">
+                                    <h3 class="rental-title">${rental.carName || rental.car || 'Car Rental'}</h3>
+                                    <span class="rental-date">${rentalDate}</span>
+                                </div>
+                                <div class="rental-details">
+                                    <div class="rental-info">
+                                        <span class="info-label">Booking ID</span>
+                                        <span class="info-value">${rental.bookingId || 'N/A'}</span>
+                                    </div>
+                                    <div class="rental-info">
+                                        <span class="info-label">Pickup Date</span>
+                                        <span class="info-value">${formatDate(rental.pickupDate)}</span>
+                                    </div>
+                                    <div class="rental-info">
+                                        <span class="info-label">Return Date</span>
+                                        <span class="info-value">${formatDate(rental.returnDate)}</span>
+                                    </div>
+                                    <div class="rental-info">
+                                        <span class="info-label">Status</span>
+                                        <span class="rental-status ${statusClass}">${rental.status}</span>
+                                    </div>
+                                </div>
+                                <div class="rental-amount">
+                                    Total: ${formatCurrency(rental.totalPrice)}
+                                </div>
+                                <div class="rental-actions">
+                                    <a href="rental-details.html?id=${rental.id}" class="view-details-btn">
+                                        <i class="ri-eye-line"></i> View Details
+                                    </a>
+                                    ${canCancel ? `
+                                        <button class="cancel-btn" data-rental-id="${rental.id}">
+                                            <i class="ri-close-circle-line"></i> Cancel Rental
+                                        </button>
+                                    ` : ''}
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    rentalsContainer.innerHTML = rentalsHTML;
+
+                    // Add event listeners to cancel buttons
+                    document.querySelectorAll('.cancel-btn').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const rentalId = this.dataset.rentalId;
+                            showCancelModal(rentalId);
+                        });
+                    });
+                } catch (error) {
+                    console.error('Error loading rental history:', error);
+                    rentalsContainer.innerHTML = `
+                        <div class="error-message">
+                            <i class="ri-error-warning-line"></i>
+                            <h3>Error Loading Rentals</h3>
+                            <p>There was an error loading your rental history. Please try again later.</p>
+                        </div>
+                    `;
+                }
+            }
+
+            // Handle filter button clicks
+            document.querySelectorAll('.filter-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    // Load rentals with selected status
+                    const status = this.dataset.status;
+                    loadRentalHistory(auth.currentUser.uid, status);
+                });
+            });
+
+            // Check authentication state
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    await loadUserData(user.uid);
+                    await loadRentalHistory(user.uid);
+                } else {
+                    window.location.href = '../login/login.html';
+                }
+            });
+
+            // Handle logout
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    auth.signOut().then(() => {
+                        window.location.href = '../index.html';
+                    }).catch((error) => {
+                        console.error('Error signing out:', error);
+                    });
+                });
+            }
+
+            // Account dropdown functionality
+            const accountBtn = document.getElementById('account-btn');
+            const accountMenu = document.getElementById('account-menu');
+
+            accountBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                accountMenu.style.display = accountMenu.style.display === 'none' ? 'block' : 'none';
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!accountBtn.contains(e.target) && !accountMenu.contains(e.target)) {
+                    accountMenu.style.display = 'none';
+                }
+            });
+
+            // Modal functionality
+            const modal = document.getElementById('cancelModal');
+            const closeModal = document.getElementById('closeModal');
+            const confirmCancel = document.getElementById('confirmCancel');
+            let currentRentalId = null;
+
+            function showCancelModal(rentalId) {
+                currentRentalId = rentalId;
+                modal.style.display = 'flex';
+            }
+
+            function hideModal() {
+                modal.style.display = 'none';
+                currentRentalId = null;
+            }
+
+            closeModal.addEventListener('click', hideModal);
+
+            confirmCancel.addEventListener('click', async () => {
+                if (!currentRentalId) return;
+
+                try {
+                    const rentalRef = doc(db, 'bookings', currentRentalId);
+                    await updateDoc(rentalRef, {
+                        status: 'cancelled',
+                        cancelledAt: serverTimestamp(),
+                        cancellationReason: 'Cancelled by user'
+                    });
+
+                    // Refresh the rental history
+                    await loadRentalHistory(auth.currentUser.uid);
+                    hideModal();
+                } catch (error) {
+                    console.error('Error cancelling rental:', error);
+                    alert('Error cancelling rental. Please try again later.');
+                }
+            });
+
+            // Close modal when clicking outside
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    hideModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - WheelsToHire</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        body {
+            background: #36454f;
+            color: #E0E0E0;
+        }
+
+        .profile-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            background: #1f2022;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border-radius: 20px;
+        }
+
+        .profile-sidebar {
+            background: #1f2022;
+            padding: 2rem;
+            border-radius: 15px;
+            height: fit-content;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-info {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            border: 3px solid #646cff;
+            padding: 3px;
+        }
+
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-email {
+            color: #9a8989;
+            font-size: 0.9rem;
+        }
+
+        .profile-menu {
+            list-style: none;
+            padding: 0;
+        }
+
+        .profile-menu li {
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 1rem;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .profile-menu a:hover {
+            background: rgba(100, 108, 255, 0.1);
+            color: #646cff;
+        }
+
+        .profile-menu a.active {
+            background: #646cff;
+            color: white;
+        }
+
+        .profile-content {
+            background: #1f2022;
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-title {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: #E0E0E0;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #E0E0E0;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .save-btn {
+            background: #646cff;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .save-btn:hover {
+            background: #535bf2;
+        }
+
+        .rental-history {
+            margin-top: 2rem;
+        }
+
+        .rental-card {
+            background: #1f2022;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .rental-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .rental-title {
+            color: white;
+            font-size: 1.1rem;
+        }
+
+        .rental-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            background: #1f2022;
+            color: #E0E0E0;
+        }
+
+        .status-active {
+            background: #1f2022;
+            color: #baccba;
+        }
+
+        .rental-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            color: #9a8989;
+            font-size: 0.9rem;
+        }
+
+        .profile-header {
+            background: #1f2022;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-header h1 {
+            color: #E0E0E0;
+        }
+
+        .profile-section {
+            background: #1f2022;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-section h2 {
+            color: #E0E0E0;
+        }
+
+        .profile-info p {
+            color: #B0B0B0;
+        }
+
+        .profile-info strong {
+            color: #E0E0E0;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav__links a {
+            color: #E0E0E0;
+        }
+
+        .nav__links a:hover {
+            color: #3498db;
+        }
+
+        .dropdown-menu {
+            background: #36454f;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-menu a {
+            color: #ffffff;
+        }
+
+        .dropdown-menu a:hover {
+            background: rgba(0, 0, 0, 0.05);
+        }
+
+        .profile-actions {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-actions .btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+
+        .profile-actions .btn-danger {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+
+        /* Add these styles to ensure consistent nav styling */
+        header {
+            background: #36454f;
+        }
+
+        nav {
+            background: #36454f !important;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .nav__header {
+            background: #36454f;
+        }
+
+        .nav__links {
+            background: #36454f;
+        }
+
+        .nav__btns {
+            background: #36454f;
+        }
+    </style>
+</head>
+<body style="background: #36454f;">
+    <header>
+        <nav style="border-bottom: 2px solid rgba(255, 255, 255, 0.1); background: #36454f;">
+            <div class="nav__header">
+                <div class="nav__logo">
+                    <a href="#" class="logo" style="color: #E0E0E0;">
+                        <img src="../assets/logo-white.png" alt="logo" class="logo-white" style="width: 100px; height: auto; display: block;" />
+                        <span style="color: #E0E0E0;">WheelsToHire.in</span>
+                    </a>
+                </div>
+                <div class="nav__menu__btn" id="menu-btn">
+                    <i class="ri-menu-line" style="color: #E0E0E0;"></i>
+                </div>
+            </div>
+            <ul class="nav__links" id="nav-links" style="color: #E0E0E0;">
+                <li><a href="userdashboard.html" style="color: #E0E0E0; transition: all 0.3s ease; position: relative;"><i class="ri-home-4-line"></i> Home</a></li>
+                <li><a href="deals.html" style="color: #E0E0E0; transition: all 0.3s ease; position: relative;"><i class="ri-car-line"></i> Rental Deals</a></li>
+            </ul>
+            <div class="nav__btns" style="position: relative;">
+                <div class="dropdown" style="position: relative;">
+                    <button class="btn dropdown-btn" id="account-btn" style="display: flex; align-items: center; gap: 5px; background: linear-gradient(135deg, #3498db, #2980b9); border: none; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); transition: all 0.3s ease; color: white; cursor: pointer;">
+                        <i class="ri-user-3-line"></i> Account
+                    </button>
+                    <ul class="dropdown-menu" id="account-menu" style="display: none; position: absolute; right: 0; top: 100%; background: #36454f; border: 1px solid rgba(255, 255, 255, 0.1); min-width: 120px; padding: 0.2rem 0; border-radius: 6px; z-index: 99999; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); margin-top: 5px;">
+                        <li><a href="#" id="logout-btn" style="color: #ffffff; display: flex; align-items: center; gap: 6px; padding: 0.4rem 0.6rem; transition: all 0.3s ease; text-decoration: none; font-size: 0.85rem;"><i class="ri-logout-box-line"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="profile-container">
+        <div class="profile-sidebar">
+            <div class="profile-info">
+                <div class="profile-pic">
+                    <img src="../assets/logo-white.png" alt="Profile Picture">
+                </div>
+                <h2 class="profile-name">Loading...</h2>
+                <p class="profile-email">Loading...</p>
+            </div>
+            <ul class="profile-menu">
+                <li><a href="profile.html" class="active"><i class="ri-user-line"></i> Personal Information</a></li>
+                <li><a href="rental-history.html"><i class="ri-history-line"></i> Rental History</a></li>
+                <li><a href="payment-history.html"><i class="ri-money-dollar-circle-line"></i> Payment History</a></li>
+                <li><a href="payment-methods.html"><i class="ri-bank-card-line"></i> Payment Methods</a></li>
+            </ul>
+        </div>
+
+        <div class="profile-content">
+            <section id="personal-info">
+                <h2 class="section-title">Personal Information</h2>
+                <form id="profileForm">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" name="fullName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" id="address" name="address" required>
+                    </div>
+                    <button type="submit" class="save-btn">Save Changes</button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js';
+        import { getFirestore, doc, getDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js';
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBdnjbQsoM_C4UjiEIRjLPYlVE3RudyA10",
+            authDomain: "carrent-853d4.firebaseapp.com",
+            databaseURL: "https://carrent-853d4-default-rtdb.firebaseio.com",
+            projectId: "carrent-853d4",
+            storageBucket: "carrent-853d4.firebasestorage.app",
+            messagingSenderId: "452122312279",
+            appId: "1:452122312279:web:1efeadd0e949ac9d3eed12",
+            measurementId: "G-W2S2QJ0NNE"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Function to load user data
+        async function loadUserData(userId) {
+            try {
+                // Show loading state
+                document.querySelector('.profile-name').textContent = 'Loading...';
+                document.querySelector('.profile-email').textContent = 'Loading...';
+                
+                const userDoc = await getDoc(doc(db, 'users', userId));
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    console.log('User data:', userData); // For debugging
+
+                    // Update profile information
+                    document.querySelector('.profile-name').textContent = userData.fullName || 'User';
+                    document.querySelector('.profile-email').textContent = userData.email || '';
+                    
+                    // Update form fields
+                    document.getElementById('fullName').value = userData.fullName || '';
+                    document.getElementById('email').value = userData.email || '';
+                    document.getElementById('phone').value = userData.phone || '';
+                    document.getElementById('address').value = userData.address || '';
+
+                    // Update profile picture if exists
+                    if (userData.profilePicture) {
+                        document.querySelector('.profile-pic img').src = userData.profilePicture;
+                    }
+                } else {
+                    console.log('No user data found');
+                    document.querySelector('.profile-name').textContent = 'User';
+                    document.querySelector('.profile-email').textContent = 'No email found';
+                }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+                document.querySelector('.profile-name').textContent = 'Error';
+                document.querySelector('.profile-email').textContent = 'Failed to load profile';
+                alert('Error loading profile data. Please try again.');
+            }
+        }
+
+        // Check authentication state
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                console.log('User is signed in:', user.uid); // For debugging
+                await loadUserData(user.uid);
+            } else {
+                console.log('No user is signed in');
+                window.location.href = '../login/login.html';
+            }
+        });
+
+        // Handle form submission
+        const profileForm = document.getElementById('profileForm');
+        profileForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const user = auth.currentUser;
+            if (!user) {
+                alert('Please sign in to update your profile');
+                return;
+            }
+
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                updatedAt: new Date().toISOString()
+            };
+
+            try {
+                await updateDoc(doc(db, 'users', user.uid), formData);
+                
+                // Update displayed information
+                document.querySelector('.profile-name').textContent = formData.fullName;
+                
+                alert('Profile updated successfully!');
+            } catch (error) {
+                console.error('Error updating profile:', error);
+                alert('Error updating profile. Please try again.');
+            }
+        });
+
+        // Handle logout
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                auth.signOut().then(() => {
+                    window.location.href = '../index.html';
+                }).catch((error) => {
+                    console.error('Error signing out:', error);
+                });
+            });
+        }
+
+        // Account dropdown functionality
+        const accountBtn = document.getElementById('account-btn');
+        const accountMenu = document.getElementById('account-menu');
+        
+        accountBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            accountMenu.style.display = accountMenu.style.display === 'none' ? 'block' : 'none';
+        });
+        
+        document.addEventListener('click', function(e) {
+            if (!accountBtn.contains(e.target) && !accountMenu.contains(e.target)) {
+                accountMenu.style.display = 'none';
+            }
+        });
+
+        // Profile menu active state
+        const menuLinks = document.querySelectorAll('.profile-menu a');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                menuLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Add hover effects to dropdown items
+        const dropdownItems = accountMenu.querySelectorAll('a');
+        dropdownItems.forEach(item => {
+          item.addEventListener('mouseover', function() {
+            this.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
+            this.style.transform = 'translateX(5px)';
+          });
+          item.addEventListener('mouseout', function() {
+            this.style.backgroundColor = 'transparent';
+            this.style.transform = 'translateX(0)';
+          });
+        });
+    </script>
+</body>
+</html>

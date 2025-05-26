@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Methods - WheelsToHire</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        body {
+            background: #36454f;
+            color: #E0E0E0;
+        }
+
+        .profile-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            background: #1f2022;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border-radius: 20px;
+        }
+
+        .profile-sidebar {
+            background: #1f2022;
+            padding: 2rem;
+            border-radius: 15px;
+            height: fit-content;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-info {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            border: 3px solid #646cff;
+            padding: 3px;
+        }
+
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-email {
+            color: #9a8989;
+            font-size: 0.9rem;
+        }
+
+        .profile-menu {
+            list-style: none;
+            padding: 0;
+        }
+
+        .profile-menu li {
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 1rem;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .profile-menu a:hover {
+            background: rgba(100, 108, 255, 0.1);
+            color: #646cff;
+        }
+
+        .profile-menu a.active {
+            background: #646cff;
+            color: white;
+        }
+
+        .profile-content {
+            background: #1f2022;
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-title {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .payment-methods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .payment-method-card {
+            background: #1f2022;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .payment-method-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .payment-method-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(100, 108, 255, 0.1);
+            border-radius: 8px;
+            color: #646cff;
+            font-size: 1.5rem;
+        }
+
+        .payment-method-title {
+            color: white;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        .payment-method-details {
+            color: #9a8989;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .payment-method-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            background: #646cff;
+            color: white;
+        }
+
+        .action-btn:hover {
+            background: #535bf2;
+        }
+
+        .action-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .action-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .add-payment-method {
+            background: #1f2022;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .add-payment-method:hover {
+            border-color: #646cff;
+            background: rgba(100, 108, 255, 0.05);
+        }
+
+        .add-payment-method i {
+            font-size: 2rem;
+            color: #646cff;
+        }
+
+        .add-payment-method p {
+            color: #9a8989;
+            margin: 0;
+        }
+
+        .loading-skeleton {
+            background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 4px;
+            height: 20px;
+            margin-bottom: 10px;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .no-payment-methods {
+            text-align: center;
+            padding: 2rem;
+            color: #9a8989;
+        }
+
+        .payment-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .form-group label {
+            color: #E0E0E0;
+            font-size: 0.9rem;
+        }
+
+        .form-group input {
+            padding: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            color: #E0E0E0;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #646cff;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .payment-type-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-type-btn {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            background: transparent;
+            color: #E0E0E0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .payment-type-btn:hover {
+            background: rgba(100, 108, 255, 0.1);
+        }
+
+        .payment-type-btn.active {
+            background: #646cff;
+            border-color: #646cff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav style="border-bottom: 2px solid rgba(255, 255, 255, 0.1); background: #36454f;">
+            <div class="nav__header">
+                <div class="nav__logo">
+                    <a href="#" class="logo" style="color: #E0E0E0;">
+                        <img src="../assets/logo-white.png" alt="logo" class="logo-white" style="width: 100px; height: auto; display: block;" />
+                        <span style="color: #E0E0E0;">WheelsToHire.in</span>
+                    </a>
+                </div>
+                <div class="nav__menu__btn" id="menu-btn">
+                    <i class="ri-menu-line" style="color: #E0E0E0;"></i>
+                </div>
+            </div>
+            <ul class="nav__links" id="nav-links" style="color: #E0E0E0;">
+                <li><a href="userdashboard.html" style="color: #E0E0E0;"><i class="ri-home-4-line"></i> Home</a></li>
+                <li><a href="deals.html" style="color: #E0E0E0;"><i class="ri-car-line"></i> Rental Deals</a></li>
+            </ul>
+            <div class="nav__btns">
+                <div class="dropdown">
+                    <button class="btn dropdown-btn" id="account-btn">
+                        <i class="ri-user-3-line"></i> Account
+                    </button>
+                    <ul class="dropdown-menu" id="account-menu">
+                        <li><a href="#" id="logout-btn"><i class="ri-logout-box-line"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="profile-container">
+        <div class="profile-sidebar">
+            <div class="profile-info">
+                <div class="profile-pic">
+                    <img src="../assets/logo-white.png" alt="Profile Picture">
+                </div>
+                <h2 class="profile-name">Loading...</h2>
+                <p class="profile-email">Loading...</p>
+            </div>
+            <ul class="profile-menu">
+                <li><a href="profile.html"><i class="ri-user-line"></i> Personal Information</a></li>
+                <li><a href="rental-history.html"><i class="ri-history-line"></i> Rental History</a></li>
+                <li><a href="payment-history.html"><i class="ri-money-dollar-circle-line"></i> Payment History</a></li>
+                <li><a href="payment-methods.html" class="active"><i class="ri-bank-card-line"></i> Payment Methods</a></li>
+            </ul>
+        </div>
+
+        <div class="profile-content">
+            <section id="payment-methods">
+                <h2 class="section-title">Payment Methods</h2>
+                <div id="payment-methods-container">
+                    <!-- Loading skeleton -->
+                    <div class="payment-methods-grid">
+                        <div class="payment-method-card">
+                            <div class="loading-skeleton"></div>
+                            <div class="loading-skeleton"></div>
+                            <div class="loading-skeleton"></div>
+                        </div>
+                        <div class="payment-method-card">
+                            <div class="loading-skeleton"></div>
+                            <div class="loading-skeleton"></div>
+                            <div class="loading-skeleton"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js';
+        import { getFirestore, doc, getDoc, collection, query, where, getDocs, deleteDoc, addDoc } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js';
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBdnjbQsoM_C4UjiEIRjLPYlVE3RudyA10",
+            authDomain: "carrent-853d4.firebaseapp.com",
+            databaseURL: "https://carrent-853d4-default-rtdb.firebaseio.com",
+            projectId: "carrent-853d4",
+            storageBucket: "carrent-853d4.firebasestorage.app",
+            messagingSenderId: "452122312279",
+            appId: "1:452122312279:web:1efeadd0e949ac9d3eed12",
+            measurementId: "G-W2S2QJ0NNE"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Function to load user data
+        async function loadUserData(userId) {
+            try {
+                const userDoc = await getDoc(doc(db, 'users', userId));
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    document.querySelector('.profile-name').textContent = userData.fullName || 'User';
+                    document.querySelector('.profile-email').textContent = userData.email || '';
+                    
+                    if (userData.profilePicture) {
+                        document.querySelector('.profile-pic img').src = userData.profilePicture;
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+            }
+        }
+
+        // Function to load payment methods
+        async function loadPaymentMethods(userId) {
+            const container = document.getElementById('payment-methods-container');
+            try {
+                const methodsQuery = query(
+                    collection(db, 'paymentMethods'),
+                    where('userId', '==', userId)
+                );
+            
+                const querySnapshot = await getDocs(methodsQuery);
+
+                if (querySnapshot.empty) {
+                    container.innerHTML = `
+                        <div class="payment-methods-grid">
+                            <div class="add-payment-method" onclick="addPaymentMethod()">
+                                <i class="ri-add-circle-line"></i>
+                                <p>Add Payment Method</p>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                let methodsHTML = '<div class="payment-methods-grid">';
+                querySnapshot.forEach((doc) => {
+                    const method = doc.data();
+                    if (method.type === 'upi') {
+                        methodsHTML += `
+                            <div class="payment-method-card">
+                                <div class="payment-method-header">
+                                    <div class="payment-method-icon">
+                                <i class="ri-bank-card-line"></i>
+                            </div>
+                                    <h3 class="payment-method-title">UPI</h3>
+                                </div>
+                                <div class="payment-method-details">
+                                    <p>UPI ID: ${method.upiId}</p>
+                                    <p>Name: ${method.upiName}</p>
+                                </div>
+                                <div class="payment-method-actions">
+                                    <button class="action-btn secondary" onclick="setDefaultMethod('${doc.id}')">Set as Default</button>
+                                    <button class="action-btn" onclick="removePaymentMethod('${doc.id}')">Remove</button>
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        methodsHTML += `
+                            <div class="payment-method-card">
+                                <div class="payment-method-header">
+                                    <div class="payment-method-icon">
+                                        <i class="ri-bank-card-line"></i>
+                                    </div>
+                                    <h3 class="payment-method-title">${method.cardType || 'Card'}</h3>
+                                </div>
+                                <div class="payment-method-details">
+                                    <p>Card ending in ${method.last4}</p>
+                                    <p>Expires ${method.expiryMonth}/${method.expiryYear}</p>
+                                </div>
+                                <div class="payment-method-actions">
+                                    <button class="action-btn secondary" onclick="setDefaultMethod('${doc.id}')">Set as Default</button>
+                                    <button class="action-btn" onclick="removePaymentMethod('${doc.id}')">Remove</button>
+                        </div>
+                        </div>
+                    `;
+                    }
+                });
+
+                methodsHTML += `
+                    <div class="add-payment-method" onclick="addPaymentMethod()">
+                        <i class="ri-add-circle-line"></i>
+                        <p>Add Payment Method</p>
+                    </div>
+                </div>`;
+
+                container.innerHTML = methodsHTML;
+            } catch (error) {
+                console.error('Error loading payment methods:', error);
+                container.innerHTML = `
+                    <div class="no-payment-methods">
+                        <i class="ri-error-warning-line" style="font-size: 3rem; color: #ff4757;"></i>
+                        <h3>Error Loading Payment Methods</h3>
+                        <p>Please try again later.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Check authentication state
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                await loadUserData(user.uid);
+                await loadPaymentMethods(user.uid);
+            } else {
+                window.location.href = '../login/login.html';
+            }
+        });
+
+        // Handle logout
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                auth.signOut().then(() => {
+                window.location.href = '../index.html';
+                }).catch((error) => {
+                    console.error('Error signing out:', error);
+                });
+            });
+        }
+
+        // Account dropdown functionality
+        const accountBtn = document.getElementById('account-btn');
+        const accountMenu = document.getElementById('account-menu');
+        
+        accountBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            accountMenu.style.display = accountMenu.style.display === 'none' ? 'block' : 'none';
+        });
+        
+        document.addEventListener('click', function(e) {
+            if (!accountBtn.contains(e.target) && !accountMenu.contains(e.target)) {
+                accountMenu.style.display = 'none';
+            }
+        });
+
+        // Add payment method
+        window.addPaymentMethod = function() {
+            const container = document.getElementById('payment-methods-container');
+            container.innerHTML = `
+                <div class="payment-method-card">
+                    <h3 class="section-title">Add New Payment Method</h3>
+                    <div class="payment-type-selector">
+                        <button class="payment-type-btn active" data-type="card">Credit/Debit Card</button>
+                        <button class="payment-type-btn" data-type="upi">UPI</button>
+                    </div>
+                    
+                    <!-- Card Payment Form -->
+                    <form id="addPaymentForm" class="payment-form">
+                        <div class="form-group">
+                            <label for="cardNumber">Card Number</label>
+                            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="expiryMonth">Expiry Month</label>
+                                <input type="text" id="expiryMonth" placeholder="MM" maxlength="2" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="expiryYear">Expiry Year</label>
+                                <input type="text" id="expiryYear" placeholder="YY" maxlength="2" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="cvv">CVV</label>
+                                <input type="text" id="cvv" placeholder="123" maxlength="3" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="cardName">Name on Card</label>
+                            <input type="text" id="cardName" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="action-btn">Add Payment Method</button>
+                            <button type="button" class="action-btn secondary" onclick="cancelAddPayment()">Cancel</button>
+                        </div>
+                    </form>
+
+                    <!-- UPI Payment Form -->
+                    <form id="addUpiForm" class="payment-form" style="display: none;">
+                        <div class="form-group">
+                            <label for="upiId">UPI ID</label>
+                            <input type="text" id="upiId" placeholder="example@upi" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="upiName">Name</label>
+                            <input type="text" id="upiName" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="action-btn">Add UPI</button>
+                            <button type="button" class="action-btn secondary" onclick="cancelAddPayment()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            `;
+
+            // Add event listeners for payment type selection
+            const paymentTypeBtns = document.querySelectorAll('.payment-type-btn');
+            const cardForm = document.getElementById('addPaymentForm');
+            const upiForm = document.getElementById('addUpiForm');
+
+            paymentTypeBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    paymentTypeBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    if (this.dataset.type === 'card') {
+                        cardForm.style.display = 'flex';
+                        upiForm.style.display = 'none';
+                    } else {
+                        cardForm.style.display = 'none';
+                        upiForm.style.display = 'flex';
+                    }
+                });
+            });
+
+            // Card form event listeners
+            const cardNumber = document.getElementById('cardNumber');
+            cardNumber.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                value = value.replace(/(\d{4})/g, '$1 ').trim();
+                e.target.value = value;
+            });
+
+            // Card form submission
+            cardForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const user = auth.currentUser;
+                if (!user) {
+                    alert('Please sign in to add a payment method');
+                    return;
+                }
+
+                const cardNumber = document.getElementById('cardNumber').value.replace(/\s/g, '');
+                const expiryMonth = document.getElementById('expiryMonth').value;
+                const expiryYear = document.getElementById('expiryYear').value;
+                const cvv = document.getElementById('cvv').value;
+                const cardName = document.getElementById('cardName').value;
+
+                // Validate expiry date
+                const currentDate = new Date();
+                const currentYear = currentDate.getFullYear() % 100; // Get last 2 digits of year
+                const currentMonth = currentDate.getMonth() + 1; // getMonth() returns 0-11
+
+                // Convert expiry inputs to numbers
+                const expMonth = parseInt(expiryMonth);
+                const expYear = parseInt(expiryYear);
+
+                // Validate month is between 1 and 12
+                if (expMonth < 1 || expMonth > 12) {
+                    alert('Please enter a valid expiry month (01-12)');
+                    return;
+                }
+
+                // Check if card is expired
+                if (expYear < currentYear || (expYear === currentYear && expMonth < currentMonth)) {
+                    alert('This card has expired. Please enter a valid expiry date.');
+                    return;
+                }
+
+                // Validate card number length (basic validation)
+                if (cardNumber.length < 13 || cardNumber.length > 19) {
+                    alert('Please enter a valid card number');
+                    return;
+                }
+
+                // Validate CVV length
+                if (cvv.length < 3 || cvv.length > 4) {
+                    alert('Please enter a valid CVV');
+                    return;
+                }
+
+                try {
+                    const last4 = cardNumber.slice(-4);
+                    const cardType = getCardType(cardNumber);
+
+                    const paymentMethod = {
+                        userId: user.uid,
+                        type: 'card',
+                        cardType: cardType,
+                        last4: last4,
+                        expiryMonth: expiryMonth,
+                        expiryYear: expiryYear,
+                        cardName: cardName,
+                        isDefault: false,
+                        createdAt: new Date().toISOString()
+                    };
+
+                    await addDoc(collection(db, 'paymentMethods'), paymentMethod);
+                    await loadPaymentMethods(user.uid);
+                    alert('Payment method added successfully!');
+                } catch (error) {
+                    console.error('Error adding payment method:', error);
+                    alert('Error adding payment method. Please try again.');
+                }
+            });
+
+            // Add input validation for expiry month and year
+            const expiryMonthInput = document.getElementById('expiryMonth');
+            const expiryYearInput = document.getElementById('expiryYear');
+
+            expiryMonthInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 0) {
+                    value = parseInt(value);
+                    if (value > 12) value = 12;
+                    if (value < 1) value = 1;
+                    e.target.value = value.toString().padStart(2, '0');
+                }
+            });
+
+            expiryYearInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 0) {
+                    value = parseInt(value);
+                    const currentYear = new Date().getFullYear() % 100;
+                    if (value < currentYear) value = currentYear;
+                    e.target.value = value.toString().padStart(2, '0');
+                }
+            });
+
+            // UPI form submission
+            upiForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                const user = auth.currentUser;
+                if (!user) {
+                    alert('Please sign in to add a payment method');
+                    return;
+                }
+
+                const upiId = document.getElementById('upiId').value;
+                const upiName = document.getElementById('upiName').value;
+
+                try {
+                    const paymentMethod = {
+                        userId: user.uid,
+                        type: 'upi',
+                        upiId: upiId,
+                        upiName: upiName,
+                        isDefault: false,
+                        createdAt: new Date().toISOString()
+                    };
+
+                    await addDoc(collection(db, 'paymentMethods'), paymentMethod);
+                    await loadPaymentMethods(user.uid);
+                    alert('UPI payment method added successfully!');
+                } catch (error) {
+                    console.error('Error adding UPI payment method:', error);
+                    alert('Error adding UPI payment method. Please try again.');
+                }
+            });
+        };
+
+        // Function to get card type based on number
+        function getCardType(number) {
+            const patterns = {
+                visa: /^4/,
+                mastercard: /^5[1-5]/,
+                amex: /^3[47]/,
+                discover: /^6(?:011|5)/
+            };
+
+            for (const [type, pattern] of Object.entries(patterns)) {
+                if (pattern.test(number)) {
+                    return type.charAt(0).toUpperCase() + type.slice(1);
+                }
+            }
+            return 'Card';
+        }
+
+        // Function to cancel adding payment method
+        window.cancelAddPayment = function() {
+            loadPaymentMethods(auth.currentUser.uid);
+        };
+
+        // Set default payment method
+        window.setDefaultMethod = async function(methodId) {
+            try {
+                const user = auth.currentUser;
+                if (!user) return;
+
+                // Update user's default payment method
+                await updateDoc(doc(db, 'users', user.uid), {
+                    defaultPaymentMethod: methodId
+                });
+
+                // Reload payment methods
+                await loadPaymentMethods(user.uid);
+            } catch (error) {
+                console.error('Error setting default payment method:', error);
+                alert('Error setting default payment method. Please try again.');
+            }
+        };
+
+        // Remove payment method
+        window.removePaymentMethod = async function(methodId) {
+            if (confirm('Are you sure you want to remove this payment method?')) {
+                try {
+                    await deleteDoc(doc(db, 'paymentMethods', methodId));
+                    await loadPaymentMethods(auth.currentUser.uid);
+                } catch (error) {
+                    console.error('Error removing payment method:', error);
+                    alert('Error removing payment method. Please try again.');
+                }
+            }
+        };
+    </script>
+</body>
+</html> 

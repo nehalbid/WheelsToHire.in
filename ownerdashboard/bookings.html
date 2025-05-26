@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookings - Car Rental Admin</title>
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .table-data {
+            padding: 24px;
+        }
+
+        .order {
+            background: #fff;
+            padding: 24px;
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .order table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .order table th {
+            padding: 12px;
+            text-align: left;
+            background: #f6f6f6;
+            color: #333;
+        }
+
+        .order table td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            vertical-align: middle;
+            height: 60px;
+        }
+
+        .status {
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            min-width: 100px;
+            text-align: center;
+            display: inline-block;
+            margin: 0;
+        }
+
+        .status.completed {
+            background: var(--blue);
+            color: var(--light);
+        }
+
+        .status.pending {
+            background: var(--orange);
+            color: var(--light);
+        }
+
+        .status.cancelled {
+            background: #8B0000 !important; /* Dark red color */
+            color: var(--light) !important;
+        }
+
+        .status.ongoing {
+            background: var(--orange);
+            color: var(--light);
+        }
+
+        .status.upcoming {
+            background: #333 !important;
+            color: #ffffff !important;
+        }
+
+        .view-btn, .delete-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 0 4px;
+            font-size: 14px;
+            height: 36px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            white-space: nowrap;
+        }
+
+        .view-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .view-btn:hover {
+            background-color: #45a049;
+        }
+        .view-btn i {
+            font-size: 16px;
+        }
+
+        .delete-btn {
+            display: flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            background-color: #ff0000 !important;
+            color: white !important;
+            border: none !important;
+            padding: 8px 16px !important;
+            border-radius: 4px !important;
+            cursor: pointer !important;
+            transition: background-color 0.3s !important;
+            text-decoration: none !important;
+        }
+
+        .delete-btn:hover {
+            background-color: #cc0000 !important;
+            color: white !important;
+            text-decoration: none !important;
+        }
+
+        .delete-btn i {
+            font-size: 16px !important;
+            color: white !important;
+        }
+
+        /* Fix theme toggle button */
+        .theme-toggle {
+            cursor: pointer !important;
+            font-size: 20px !important;
+        }
+
+        .dark .theme-toggle {
+            color: #ffffff !important;
+        }
+        
+        .theme-toggle i {
+            line-height: normal !important;
+        }
+
+        /* Notification styles */
+        .notification-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .notification {
+            position: relative;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            color: inherit;
+        }
+
+        .notification i {
+            font-size: 20px;
+        }
+
+        .notification .num {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid var(--light);
+            background: var(--red);
+            color: var(--light);
+            font-weight: 700;
+            font-size: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .notification-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            width: 300px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 10px;
+        }
+
+        .notification-dropdown.show {
+            display: block;
+        }
+
+        .notification-header {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notification-header h3 {
+            margin: 0;
+            font-size: 16px;
+        }
+
+        #markAllRead {
+            background: none;
+            border: none;
+            color: #3C91E6;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .notification-list {
+            padding: 0;
+        }
+
+        .notification-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .notification-item:hover {
+            background-color: #f5f5f5;
+        }
+
+        .notification-item.unread {
+            background-color: #f0f7ff;
+        }
+
+        .notification-content p {
+            margin: 0 0 5px 0;
+            font-size: 14px;
+        }
+
+        .notification-content .time {
+            color: #888;
+            font-size: 12px;
+        }
+
+        /* Add a small arrow to the dropdown */
+        .notification-dropdown::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid white;
+        }
+
+        /* Dark mode styles */
+        body.dark .notification-dropdown {
+            background: #2d2d2d;
+            border: 1px solid #3d3d3d;
+        }
+
+        body.dark .notification-header {
+            border-bottom: 1px solid #3d3d3d;
+        }
+
+        body.dark .notification-item {
+            border-bottom: 1px solid #3d3d3d;
+        }
+
+        body.dark .notification-item:hover {
+            background-color: #3d3d3d;
+        }
+
+        body.dark .notification-item.unread {
+            background-color: #1a1a1a;
+        }
+
+        body.dark .notification-content p {
+            color: #fff;
+        }
+
+        body.dark .notification-content .time {
+            color: #888;
+        }
+
+        body.dark #markAllRead {
+            color: #3C91E6;
+        }
+
+        body.dark .notification-dropdown::before {
+            border-bottom-color: #2d2d2d;
+        }
+
+        .view-btn, .delete-btn {
+            padding: 6px 12px !important;
+            font-size: 13px !important;
+            margin: 0 4px !important;
+        }
+
+        .view-btn i, .delete-btn i {
+            font-size: 14px !important;
+            margin-right: 4px !important;
+        }
+
+        .table-data .order {
+            overflow-x: auto;
+        }
+
+        .table-data .order table {
+            min-width: 1000px;
+        }
+
+        .table-data .order table th {
+            white-space: nowrap;
+            padding: 12px;
+            background: #f6f6f6;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .table-data .order table td {
+            white-space: nowrap;
+        }
+
+        /* Dark mode styles */
+        body.dark .table-data .order table th {
+            background: #2d2d2d;
+            color: #fff;
+        }
+
+        body.dark .table-data .order table td {
+            border-bottom: 1px solid #3d3d3d;
+        }
+
+        /* Profile avatar styles */
+        .profile {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .profile i {
+            transition: color 0.3s ease;
+        }
+
+        .profile:hover i {
+            color: #3b3b3b !important;
+        }
+
+        /* Update dark mode styles */
+        body.dark .profile i {
+            color: #ffffff !important;
+        }
+
+        body.dark .profile:hover i {
+            color: #cccccc !important;
+        }
+
+        /* Avatar showcase styles */
+        .avatar-showcase {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            z-index: 1000;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            max-width: 400px;
+        }
+
+        .avatar-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .avatar-option:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .avatar-option .emoji {
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        .avatar-option p {
+            font-size: 12px;
+            text-align: center;
+            margin: 0;
+            color: #666;
+        }
+
+        body.dark .avatar-showcase {
+            background: #333;
+            color: white;
+        }
+
+        body.dark .avatar-option {
+            background: #444;
+        }
+
+        body.dark .avatar-option:hover {
+            background: #555;
+        }
+
+        body.dark .avatar-option p {
+            color: #ccc;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .booking-details {
+            padding: 20px;
+        }
+
+        .booking-details h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .detail-item .label {
+            font-weight: bold;
+            color: #666;
+        }
+
+        .detail-item .value {
+            color: #333;
+        }
+
+        .view-btn {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .view-btn:hover {
+            background-color: #45a049;
+        }
+
+        .view-btn i {
+            font-size: 16px;
+        }
+
+        /* Dark mode styles */
+        body.dark .modal-content {
+            background-color: #2d2d2d;
+            color: #fff;
+        }
+
+        body.dark .booking-details h2 {
+            color: #fff;
+        }
+
+        body.dark .detail-item .label {
+            color: #ccc;
+        }
+
+        body.dark .detail-item .value {
+            color: #fff;
+        }
+
+        body.dark .close {
+            color: #fff;
+        }
+
+        /* Dark theme styles */
+        body.dark {
+            background: #1f2022 !important;
+            color: #ffffff !important;
+        }
+
+        body.dark nav {
+            background: #36454f !important;
+        }
+
+        body.dark .sidebar {
+            background: #36454f !important;
+        }
+
+        body.dark .sidebar .side-menu li a {
+            color: #ffffff !important;
+        }
+
+        body.dark .sidebar .side-menu li a:hover {
+            background: #1f2022 !important;
+            color: #ffffff !important;
+        }
+
+        body.dark .sidebar .side-menu li.active a {
+            background: #1f2022 !important;
+            color: #ffffff !important;
+        }
+
+        body.dark .content {
+            background: #1f2022 !important;
+        }
+
+        body.dark .head-title .left h1,
+        body.dark .head-title .left .breadcrumb li,
+        body.dark .head-title .left .breadcrumb li a {
+            color: #ffffff !important;
+        }
+
+        body.dark .box-info li .box {
+            background: #36454f !important;
+        }
+
+        body.dark .box-info li .box .text h3,
+        body.dark .box-info li .box .text p {
+            color: #ffffff !important;
+        }
+
+        body.dark table {
+            background: #36454f !important;
+            color: #ffffff !important;
+        }
+
+        body.dark table th {
+            background: #1f2022 !important;
+            color: #ffffff !important;
+            padding: 12px;
+            font-weight: 600;
+        }
+
+        body.dark table td {
+            color: #ffffff !important;
+            padding: 12px;
+            border-bottom: 1px solid #1f2022 !important;
+        }
+
+        body.dark table tr {
+            background: #36454f !important;
+            border-bottom: 1px solid #1f2022 !important;
+        }
+
+        body.dark table tr:hover {
+            background: #1f2022 !important;
+        }
+
+        body.dark .status {
+            background: #1f2022 !important;
+        }
+
+        body.dark .status.completed {
+            background: #28a745 !important;
+            color: #ffffff !important;
+        }
+
+        body.dark .status.ongoing {
+            background: #ffc107 !important;
+            color: #000000 !important;
+        }
+
+        body.dark .status.cancelled {
+            background: #8B0000 !important;
+            color: #ffffff !important;
+        }
+
+        body.dark .table-data .order {
+            background: #36454f !important;
+        }
+
+        body.dark .table-data .order .head {
+            background: #1f2022 !important;
+            border-bottom: 1px solid #1f2022 !important;
+        }
+
+        body.dark .table-data .order .head h3 {
+            color: #ffffff !important;
+        }
+
+        body.dark .table-data .order table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        body.dark .table-data .order table th,
+        body.dark .table-data .order table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #1f2022 !important;
+        }
+
+        body.dark .table-data .order table th {
+            background: #1f2022 !important;
+            font-weight: 600;
+        }
+
+        body.dark .table-data .order table tr {
+            background: #36454f !important;
+        }
+
+        body.dark .table-data .order table tr:hover {
+            background: #1f2022 !important;
+        }
+
+        /* Remove notification styles */
+        .notification-wrapper,
+        .notification,
+        .notification .num,
+        .notification-dropdown,
+        .notification-header,
+        .notification-list,
+        .notification-item,
+        .notification-content {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <section id="sidebar">
+        <a href="#" class="brand">
+            <i class='bx bxs-car'></i>
+            <span class="text">Car Rental</span>
+        </a>
+        <ul class="side-menu top">
+            <li>
+                <a href="ownerdashboard.html">
+                    <i class='bx bxs-dashboard' ></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+    
+            <li class="active">
+                <a href="bookings.html">
+                    <i class='bx bxs-calendar' ></i>
+                    <span class="text">Bookings</span>
+                </a>
+            </li>
+            <li>
+                <a href="my_cars.html">
+                    <i class='bx bxs-user' ></i>
+                    <span class="text">My Cars</span>
+                </a>
+            </li>
+           
+        </ul>
+        <ul class="side-menu">
+            <li>
+                <a href="profile.html">
+                    <i class='bx bxs-cog' ></i>
+                    <span class="text">Profile</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="logout">
+                    <i class='bx bxs-log-out-circle' ></i>
+                    <span class="text">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+
+    <!-- CONTENT -->
+    <section id="content">
+        <!-- Avatar Showcase Modal -->
+        <div class="avatar-showcase" id="avatarShowcase" style="display: none;">
+            <div class="avatar-option">
+                <span class="emoji">😊</span>
+                <p>Smile</p>
+            </div>
+            <div class="avatar-option">
+                <span class="emoji">😎</span>
+                <p>Cool</p>
+            </div>
+            <div class="avatar-option">
+                <span class="emoji">🤠</span>
+                <p>Cowboy</p>
+            </div>
+            <div class="avatar-option">
+                <span class="emoji">🦸‍♂️</span>
+                <p>Superhero</p>
+            </div>
+            <div class="avatar-option">
+                <span class="emoji">🧙‍♂️</span>
+                <p>Wizard</p>
+            </div>
+            <div class="avatar-option">
+                <span class="emoji">👨‍💼</span>
+                <p>Business</p>
+            </div>
+            <div class="avatar-option">
+                <span class="emoji">🤓</span>
+                <p>Nerd</p>
+            </div>
+            <div class="avatar-option">
+                <span class="emoji">🦊</span>
+                <p>Fox</p>
+            </div>
+            <div class="avatar-option">
+                <span class="emoji">🐱</span>
+                <p>Cat</p>
+            </div>
+            <div class="avatar-option">
+                <span class="emoji">🦁</span>
+                <p>Lion</p>
+            </div>
+            <div class="avatar-option">
+                <span class="emoji">🐼</span>
+                <p>Panda</p>
+            </div>
+            <div class="avatar-option">
+                <span class="emoji">🦉</span>
+                <p>Owl</p>
+            </div>
+        </div>
+
+        <nav>
+            <i class='bx bx-menu'></i>
+            <form action="#">
+                <div class="form-input">
+                    <input type="search" placeholder="Search...">
+                    <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+                </div>
+            </form>
+            <input type="checkbox" id="switch-mode" hidden>
+            <label for="switch-mode" class="switch-mode theme-toggle"><i class='bx bx-moon'></i></label>
+            <div class="profile">
+                <span class="emoji" style="font-size: 2em; cursor: pointer;" onclick="window.location.href='profile.html'">😊</span>
+            </div>
+        </nav>
+
+        <main>
+            <div class="head-title">
+                <div class="left">
+                    <h1>Bookings</h1>
+                    <ul class="breadcrumb">
+                        <li><a href="ownerdashboard.html">Dashboard</a></li>
+                        <li><i class='bx bx-chevron-right'></i></li>
+                        <li><a class="active" href="#">Bookings</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="bookings-container">
+                <div class="table-data">
+                    <div class="order">
+                        <div class="head">
+                            <h3>All Bookings</h3>
+                            <i class='bx bx-search'></i>
+                            <i class='bx bx-filter'></i>
+                        </div>
+                        <table id="bookingsTable">
+                            <thead>
+                                <tr>
+                                    <th>Customer Name</th>
+                                    <th>Car Model</th>
+                                    <th>Pickup Date</th>
+                                    <th>Return Date</th>
+                                    <th>Total Price</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Bookings will be loaded here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </section>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js';
+        import { getFirestore, collection, getDocs, deleteDoc, doc, query, orderBy, where, limit, onSnapshot, getDoc } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js';
+        import { getAuth, onAuthStateChanged, signOut } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js';
+        import { getAnalytics } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-analytics.js';
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBdnjbQsoM_C4UjiEIRjLPYlVE3RudyA10",
+            authDomain: "carrent-853d4.firebaseapp.com",
+            databaseURL: "https://carrent-853d4-default-rtdb.firebaseio.com",
+            projectId: "carrent-853d4",
+            storageBucket: "carrent-853d4.firebasestorage.app",
+            messagingSenderId: "452122312279",
+            appId: "1:452122312279:web:1efeadd0e949ac9d3eed12",
+            measurementId: "G-W2S2QJ0NNE"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // Check authentication
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = '../login/owner.html';
+            } else {
+                setupRealTimeListeners();
+            }
+        });
+
+        // Function to determine booking status
+        function getBookingStatus(booking) {
+            if (booking.status === 'cancelled') {
+                return 'cancelled';
+            }
+            
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            const pickupDateTime = new Date(booking.pickupDate);
+            pickupDateTime.setHours(0, 0, 0, 0);
+            
+            if (pickupDateTime > today) {
+                return 'upcoming';
+            }
+            
+            if (!booking.returnDate) return 'ongoing';
+            
+            const returnDateTime = new Date(booking.returnDate);
+            returnDateTime.setHours(0, 0, 0, 0);
+            
+            return returnDateTime < today ? 'completed' : 'ongoing';
+        }
+
+        // Setup real-time listeners for bookings
+        function setupRealTimeListeners() {
+            // Listen for bookings
+            const bookingsRef = collection(db, 'bookings');
+            const bookingsQuery = query(bookingsRef, orderBy('bookingDate', 'desc'));
+            
+            onSnapshot(bookingsQuery, (snapshot) => {
+                const bookings = [];
+                let totalIncome = 0;
+                let cancelledCount = 0;
+
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    bookings.push({
+                        id: doc.id,
+                        ...data
+                    });
+
+                    if (data.status === 'cancelled') {
+                        cancelledCount++;
+                    }
+
+                    if (data.totalPrice && data.status !== 'cancelled') {
+                        const price = parseFloat(
+                            data.totalPrice
+                                .toString()
+                                .replace(/[^0-9.]/g, '')
+                                .replace(/^(\.)/, '')
+                        );
+                        if (!isNaN(price)) {
+                            totalIncome += price;
+                        }
+                    }
+                });
+
+                // Update bookings table with newest bookings first
+                updateBookingsTable(bookings);
+            }, (error) => {
+                console.error("Error fetching bookings: ", error);
+            });
+        }
+
+        // Update bookings table
+        function updateBookingsTable(bookings) {
+            const tbody = document.querySelector('#bookingsTable tbody');
+            tbody.innerHTML = ''; // Clear existing content
+
+            if (bookings.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align: center;">No bookings found</td></tr>';
+                return;
+            }
+
+            bookings.forEach(booking => {
+                const status = getBookingStatus(booking);
+                const row = document.createElement('tr');
+                row.dataset.bookingId = booking.id;
+                row.innerHTML = `
+                    <td>${booking.customerName || booking.name || 'N/A'}</td>
+                    <td>${booking.car || 'N/A'}</td>
+                    <td>${formatDate(booking.pickupDate)}</td>
+                    <td>${formatDate(booking.returnDate)}</td>
+                    <td>${formatCurrency(booking.totalPrice)}</td>
+                    <td><span class="status ${status}">${status.charAt(0).toUpperCase() + status.slice(1)}</span></td>
+                    <td>
+                        <button class="view-btn" onclick="viewBookingDetails('${booking.id}')">
+                            <i class='bx bx-show'></i> View Details
+                        </button>
+                        <button class="delete-btn" onclick="deleteBooking('${booking.id}')">
+                            <i class='bx bx-trash'></i> Delete
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Format date function
+        function formatDate(dateStr) {
+            if (!dateStr) return 'N/A';
+            try {
+                const date = new Date(dateStr);
+                return date.toLocaleDateString('en-IN', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+            } catch (e) {
+                return 'N/A';
+            }
+        }
+
+        // View booking details function
+        window.viewBookingDetails = async function(bookingId) {
+            try {
+                const bookingRef = doc(db, 'bookings', bookingId);
+                const bookingDoc = await getDoc(bookingRef);
+                
+                if (bookingDoc.exists()) {
+                    const bookingData = bookingDoc.data();
+                    
+                    // Create modal content
+                    const modalContent = `
+                        <div class="booking-details">
+                            <h2>Booking Details</h2>
+                            <div class="details-grid">
+                                <div class="detail-item">
+                                    <span class="label">Customer Name:</span>
+                                    <span class="value">${bookingData.customerName || bookingData.name || 'N/A'}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Car Model:</span>
+                                    <span class="value">${bookingData.car || 'N/A'}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Pickup Date:</span>
+                                    <span class="value">${formatDate(bookingData.pickupDate)}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Return Date:</span>
+                                    <span class="value">${formatDate(bookingData.returnDate)}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Total Price:</span>
+                                    <span class="value">${formatCurrency(bookingData.totalPrice)}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Status:</span>
+                                    <span class="value status ${getBookingStatus(bookingData)}">${getBookingStatus(bookingData).charAt(0).toUpperCase() + getBookingStatus(bookingData).slice(1)}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Location:</span>
+                                    <span class="value">${bookingData.location || 'N/A'}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Driving License:</span>
+                                    <span class="value">${bookingData.drivingLicense || 'N/A'}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Aadhar Card:</span>
+                                    <span class="value">${bookingData.aadharCard || 'N/A'}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="label">Booking Date:</span>
+                                    <span class="value">${formatDate(bookingData.bookingDate)}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+
+                    // Create and show modal
+                    const modal = document.createElement('div');
+                    modal.className = 'modal';
+                    modal.innerHTML = `
+                        <div class="modal-content">
+                            <span class="close">&times;</span>
+                            ${modalContent}
+                        </div>
+                    `;
+
+                    document.body.appendChild(modal);
+                    modal.style.display = 'block';
+
+                    // Close modal functionality
+                    const closeBtn = modal.querySelector('.close');
+                    closeBtn.onclick = function() {
+                        modal.remove();
+                    };
+
+                    window.onclick = function(event) {
+                        if (event.target === modal) {
+                            modal.remove();
+                        }
+                    };
+                } else {
+                    alert('Booking details not found.');
+                }
+            } catch (error) {
+                console.error('Error viewing booking details:', error);
+                alert('Error loading booking details. Please try again.');
+            }
+        };
+
+        // Make functions available globally
+        window.viewBooking = function(bookingId) {
+            // Implement view functionality if needed
+            alert('View booking functionality coming soon!');
+        };
+
+        window.deleteBooking = async function(docId, bookingId) {
+            if (!confirm(`Are you sure you want to delete booking ${bookingId}?`)) {
+                return;
+            }
+
+            try {
+                // Remove the row from the table immediately for instant feedback
+                const row = document.querySelector(`tr[data-booking-id="${docId}"]`);
+                if (row) {
+                    row.remove();
+                }
+
+                // Delete the booking document in the background
+                await deleteDoc(doc(db, 'bookings', docId));
+            } catch (error) {
+                console.error('Error deleting booking:', error);
+                alert('Failed to delete booking. Please try again.');
+                // If deletion fails, refresh the table to restore the row
+                setupRealTimeListeners();
+            }
+        };
+
+        // Implement dark mode toggle
+        const themeToggle = document.querySelector('.theme-toggle');
+        const body = document.body;
+
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            body.classList.add(savedTheme);
+            if (savedTheme === 'dark') {
+                themeToggle.classList.replace('bx-moon', 'bx-sun');
+            }
+        }
+
+        // Theme toggle click handler
+        themeToggle.addEventListener('click', function() {
+            body.classList.toggle('dark');
+            
+            if (body.classList.contains('dark')) {
+                localStorage.setItem('theme', 'dark');
+                this.classList.replace('bx-moon', 'bx-sun');
+            } else {
+                localStorage.setItem('theme', 'light');
+                this.classList.replace('bx-sun', 'bx-moon');
+            }
+        });
+
+        // Implement sidebar toggle
+        const allSideMenu = document.querySelectorAll('#sidebar .side-menu.top li a');
+        allSideMenu.forEach(item => {
+            const li = item.parentElement;
+            item.addEventListener('click', function () {
+                allSideMenu.forEach(i => {
+                    i.parentElement.classList.remove('active');
+                })
+                li.classList.add('active');
+            })
+        });
+
+        // TOGGLE SIDEBAR
+        const menuBar = document.querySelector('#content nav .bx.bx-menu');
+        const sidebar = document.getElementById('sidebar');
+        menuBar.addEventListener('click', function () {
+            sidebar.classList.toggle('hide');
+        });
+
+        // Add notification functionality
+        const notificationBtn = document.getElementById('notificationBtn');
+        const notificationDropdown = document.getElementById('notificationDropdown');
+        const notificationList = document.getElementById('notificationList');
+        const notificationCount = document.getElementById('notificationCount');
+        const markAllReadBtn = document.getElementById('markAllRead');
+
+        // Toggle notification dropdown
+        notificationBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation(); // Prevent event from bubbling up
+            notificationDropdown.classList.toggle('show');
+            if (notificationDropdown.classList.contains('show')) {
+                loadNotifications();
+            }
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!notificationBtn.contains(e.target) && !notificationDropdown.contains(e.target)) {
+                notificationDropdown.classList.remove('show');
+            }
+        });
+
+        // Prevent dropdown from closing when clicking inside it
+        notificationDropdown.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+
+        // Load notifications from Firebase
+        async function loadNotifications() {
+            try {
+                const notificationsRef = collection(db, 'notifications');
+                const q = query(notificationsRef, orderBy('timestamp', 'desc'), limit(10));
+                
+                const querySnapshot = await getDocs(q);
+                notificationList.innerHTML = ''; // Clear existing notifications
+                let unreadCount = 0;
+
+                if (querySnapshot.empty) {
+                    notificationList.innerHTML = '<div class="notification-item"><div class="notification-content"><p>No notifications</p></div></div>';
+                    notificationCount.textContent = '0';
+                    notificationCount.style.display = 'none';
+                    return;
+                }
+
+                querySnapshot.forEach((doc) => {
+                    const notification = doc.data();
+                    if (!notification.read) {
+                        unreadCount++;
+                    }
+                    
+                    const notificationElement = createNotificationElement(notification, doc.id);
+                    notificationList.appendChild(notificationElement);
+                });
+
+                // Update notification count
+                notificationCount.textContent = unreadCount;
+                notificationCount.style.display = unreadCount > 0 ? 'block' : 'none';
+            } catch (error) {
+                console.error('Error loading notifications:', error);
+                notificationList.innerHTML = '<div class="notification-item"><div class="notification-content"><p>Error loading notifications</p></div></div>';
+            }
+        }
+
+        // Create notification element
+        function createNotificationElement(notification, notificationId) {
+            const div = document.createElement('div');
+            div.className = `notification-item ${notification.read ? '' : 'unread'}`;
+            
+            div.innerHTML = `
+                <div class="notification-content">
+                    <p>${notification.message}</p>
+                    <span class="time">${formatTimestamp(notification.timestamp)}</span>
+                </div>
+            `;
+
+            // Mark as read when clicked
+            div.addEventListener('click', async () => {
+                if (!notification.read) {
+                    await markNotificationAsRead(notificationId);
+                    div.classList.remove('unread');
+                    loadNotifications(); // Refresh notification count
+                }
+            });
+
+            return div;
+        }
+
+        // Mark notification as read
+        async function markNotificationAsRead(notificationId) {
+            const notificationRef = doc(db, 'notifications', notificationId);
+            try {
+                await updateDoc(notificationRef, {
+                    read: true
+                });
+            } catch (error) {
+                console.error('Error marking notification as read:', error);
+            }
+        }
+
+        // Mark all notifications as read
+        markAllReadBtn.addEventListener('click', async () => {
+            const notificationsRef = collection(db, 'notifications');
+            const q = query(notificationsRef, where('read', '==', false));
+            
+            try {
+                const querySnapshot = await getDocs(q);
+                const batch = writeBatch(db);
+                
+                querySnapshot.forEach((doc) => {
+                    batch.update(doc.ref, { read: true });
+                });
+                
+                await batch.commit();
+                loadNotifications(); // Refresh notifications
+            } catch (error) {
+                console.error('Error marking all notifications as read:', error);
+            }
+        });
+
+        // Format timestamp
+        function formatTimestamp(timestamp) {
+            if (!timestamp) return '';
+            
+            const date = timestamp.toDate();
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            
+            if (diffDays === 0) {
+                const hours = Math.floor(diffTime / (1000 * 60 * 60));
+                if (hours === 0) {
+                    const minutes = Math.floor(diffTime / (1000 * 60));
+                    return `${minutes} minutes ago`;
+                }
+                return `${hours} hours ago`;
+            } else if (diffDays === 1) {
+                return 'Yesterday';
+            } else {
+                return date.toLocaleDateString();
+            }
+        }
+
+        // Load notifications initially and set up real-time listener
+        loadNotifications();
+        const notificationsRef = collection(db, 'notifications');
+        const unsubscribe = onSnapshot(query(notificationsRef, orderBy('timestamp', 'desc')), (snapshot) => {
+            let unreadCount = 0;
+            snapshot.forEach((doc) => {
+                const notification = doc.data();
+                if (!notification.read) {
+                    unreadCount++;
+                }
+            });
+            notificationCount.textContent = unreadCount;
+            notificationCount.style.display = unreadCount > 0 ? 'block' : 'none';
+        });
+
+        // Initialize avatar showcase functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const profileIcon = document.querySelector('.profile');
+            const profileEmoji = profileIcon.querySelector('.emoji');
+            const avatarShowcase = document.getElementById('avatarShowcase');
+            
+            // Toggle showcase on profile click
+            profileIcon.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (avatarShowcase.style.display === 'none') {
+                    avatarShowcase.style.display = 'grid';
+                } else {
+                    avatarShowcase.style.display = 'none';
+                }
+            });
+
+            // Handle avatar selection
+            document.querySelectorAll('.avatar-option').forEach(option => {
+                option.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const newEmoji = this.querySelector('.emoji').textContent;
+                    profileEmoji.textContent = newEmoji;
+                    avatarShowcase.style.display = 'none';
+                });
+            });
+
+            // Close showcase when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!avatarShowcase.contains(e.target) && !profileIcon.contains(e.target)) {
+                    avatarShowcase.style.display = 'none';
+                }
+            });
+        });
+
+        // Add this function near the top of the script section
+        function formatCurrency(amount) {
+            if (!amount) return 'Rs 0';
+            amount = amount.toString().replace(/[^0-9.]/g, '');
+            const numericAmount = parseFloat(amount);
+            if (isNaN(numericAmount)) return 'Rs 0';
+            return 'Rs ' + numericAmount.toLocaleString('en-IN');
+        }
+
+        document.querySelector('.logout').addEventListener('click', (e) => {
+            e.preventDefault();
+            signOut(auth).then(() => {
+                window.location.href = '../index.html';
+            }).catch((error) => {
+                console.error('Error signing out:', error);
+            });
+        });
+    </script>
+</body>
+</html>

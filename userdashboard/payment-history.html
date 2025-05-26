@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment History - WheelsToHire</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        body {
+            background: #36454f;
+            color: #E0E0E0;
+        }
+
+        .profile-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            background: #1f2022;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border-radius: 20px;
+        }
+
+        .profile-sidebar {
+            background: #1f2022;
+            padding: 2rem;
+            border-radius: 15px;
+            height: fit-content;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-info {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            border: 3px solid #646cff;
+            padding: 3px;
+        }
+
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-email {
+            color: #9a8989;
+            font-size: 0.9rem;
+        }
+
+        .profile-menu {
+            list-style: none;
+            padding: 0;
+        }
+
+        .profile-menu li {
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 1rem;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .profile-menu a:hover {
+            background: rgba(100, 108, 255, 0.1);
+            color: #646cff;
+        }
+
+        .profile-menu a.active {
+            background: #646cff;
+            color: white;
+        }
+
+        .profile-content {
+            background: #1f2022;
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-title {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .payment-card {
+            background: #1f2022;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .payment-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .payment-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .payment-title {
+            color: #E0E0E0;
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        .payment-date {
+            color: #9a8989;
+            font-size: 0.9rem;
+        }
+
+        .payment-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .payment-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .info-label {
+            color: #9a8989;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            color: #E0E0E0;
+            font-size: 1.1rem;
+        }
+
+        .payment-amount {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2ed573;
+        }
+
+        .payment-status {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .status-success {
+            background: rgba(46, 213, 115, 0.1);
+            color: #2ed573;
+        }
+
+        .status-pending {
+            background: rgba(255, 159, 67, 0.1);
+            color: #ff9f43;
+        }
+
+        .booking-summary {
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .booking-summary h4 {
+            color: #3498db;
+            margin: 0 0 0.5rem 0;
+            font-size: 1rem;
+        }
+
+        .booking-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .booking-detail {
+            color: #E0E0E0;
+        }
+
+        .booking-detail span {
+            color: #9a8989;
+        }
+
+        .loading-skeleton {
+            background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 4px;
+            height: 20px;
+            margin-bottom: 10px;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .no-payments {
+            text-align: center;
+            padding: 2rem;
+            color: #9a8989;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav style="border-bottom: 2px solid rgba(255, 255, 255, 0.1); background: #36454f;">
+            <div class="nav__header">
+                <div class="nav__logo">
+                    <a href="#" class="logo" style="color: #E0E0E0;">
+                        <img src="../assets/logo-white.png" alt="logo" class="logo-white" style="width: 100px; height: auto; display: block;" />
+                        <span style="color: #E0E0E0;">WheelsToHire.in</span>
+                    </a>
+                </div>
+                <div class="nav__menu__btn" id="menu-btn">
+                    <i class="ri-menu-line" style="color: #E0E0E0;"></i>
+                </div>
+            </div>
+            <ul class="nav__links" id="nav-links" style="color: #E0E0E0;">
+                <li><a href="userdashboard.html" style="color: #E0E0E0;"><i class="ri-home-4-line"></i> Home</a></li>
+                <li><a href="deals.html" style="color: #E0E0E0;"><i class="ri-car-line"></i> Rental Deals</a></li>
+            </ul>
+            <div class="nav__btns">
+                <div class="dropdown">
+                    <button class="btn dropdown-btn" id="account-btn">
+                        <i class="ri-user-3-line"></i> Account
+                    </button>
+                    <ul class="dropdown-menu" id="account-menu">
+                        <li><a href="#" id="logout-btn"><i class="ri-logout-box-line"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="profile-container">
+        <div class="profile-sidebar">
+            <div class="profile-info">
+                <div class="profile-pic">
+                    <img src="../assets/logo-white.png" alt="Profile Picture">
+                </div>
+                <h2 class="profile-name">Loading...</h2>
+                <p class="profile-email">Loading...</p>
+            </div>
+            <ul class="profile-menu">
+                <li><a href="profile.html"><i class="ri-user-line"></i> Personal Information</a></li>
+                <li><a href="rental-history.html"><i class="ri-history-line"></i> Rental History</a></li>
+                <li><a href="payment-history.html" class="active"><i class="ri-money-dollar-circle-line"></i> Payment History</a></li>
+                <li><a href="payment-methods.html"><i class="ri-bank-card-line"></i> Payment Methods</a></li>
+            </ul>
+        </div>
+
+        <div class="profile-content">
+            <section id="payment-history">
+                <h2 class="section-title">Payment History</h2>
+                <div id="payments-container">
+                    <!-- Loading skeleton -->
+                    <div class="payment-card">
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                    </div>
+                    <div class="payment-card">
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+                        <div class="loading-skeleton"></div>
+            </div>
+            </div>
+            </section>
+        </div>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js';
+        import { getFirestore, doc, getDoc, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js';
+
+            // Firebase configuration
+            const firebaseConfig = {
+                apiKey: "AIzaSyBdnjbQsoM_C4UjiEIRjLPYlVE3RudyA10",
+                authDomain: "carrent-853d4.firebaseapp.com",
+                databaseURL: "https://carrent-853d4-default-rtdb.firebaseio.com",
+                projectId: "carrent-853d4",
+                storageBucket: "carrent-853d4.firebasestorage.app",
+                messagingSenderId: "452122312279",
+                appId: "1:452122312279:web:1efeadd0e949ac9d3eed12",
+                measurementId: "G-W2S2QJ0NNE"
+            };
+
+            // Initialize Firebase
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            const db = getFirestore(app);
+
+            // Function to load user data
+            async function loadUserData(userId) {
+                try {
+                    const userDoc = await getDoc(doc(db, 'users', userId));
+                    if (userDoc.exists()) {
+                        const userData = userDoc.data();
+                        document.querySelector('.profile-name').textContent = userData.fullName || 'User';
+                        document.querySelector('.profile-email').textContent = userData.email || '';
+                    
+                    if (userData.profilePicture) {
+                        document.querySelector('.profile-pic img').src = userData.profilePicture;
+                    }
+                    }
+                } catch (error) {
+                    console.error('Error loading user data:', error);
+                }
+            }
+
+            // Function to format currency
+            function formatCurrency(amount) {
+                return new Intl.NumberFormat('en-IN', {
+                    style: 'currency',
+                    currency: 'INR',
+                    minimumFractionDigits: 0
+                }).format(amount);
+            }
+
+        // Function to format date
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+
+            // Function to load payment history
+            async function loadPaymentHistory(userId) {
+            const historyContainer = document.getElementById('payments-container');
+                try {
+                    const bookingsRef = collection(db, 'bookings');
+                    const q = query(bookingsRef, where('userId', '==', userId));
+                    const querySnapshot = await getDocs(q);
+
+                    if (querySnapshot.empty) {
+                    historyContainer.innerHTML = `
+                            <div class="no-payments">
+                            <i class="ri-money-dollar-circle-line"></i>
+                            <h3>No Payment History</h3>
+                            <p>You haven't made any payments yet.</p>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                let paymentsHTML = '';
+                    querySnapshot.forEach((doc) => {
+                    const payment = doc.data();
+                    const paymentDate = new Date(payment.bookingDate).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                    });
+
+                    const totalAmount = payment.totalPrice || 0;
+                    const bookingAmount = payment.bookingAmount || Math.round(totalAmount * 0.25);
+                    const remainingAmount = payment.remainingAmount || (totalAmount - bookingAmount);
+
+                    paymentsHTML += `
+                        <div class="payment-card">
+                            <div class="payment-header">
+                                <h3 class="payment-title">Booking Payment</h3>
+                                <span class="payment-date">${paymentDate}</span>
+                            </div>
+                            <div class="payment-details">
+                                <div class="payment-info">
+                                    <span class="info-label">Payment ID</span>
+                                    <span class="info-value">${payment.paymentId || 'N/A'}</span>
+                                </div>
+                                <div class="payment-info">
+                                    <span class="info-label">Booking ID</span>
+                                    <span class="info-value">${payment.bookingId || 'N/A'}</span>
+                                </div>
+                                <div class="payment-info">
+                                    <span class="info-label">Status</span>
+                                    <span class="payment-status status-success">${payment.paymentStatus || 'Completed'}</span>
+                                </div>
+                            </div>
+                            <div class="payment-amount">
+                                Paid: ${formatCurrency(bookingAmount)}
+                            </div>
+                            <div class="booking-summary">
+                                <h4>Booking Summary</h4>
+                                <div class="booking-details">
+                                    <div class="booking-detail">
+                                        <span>Car:</span> ${payment.carName || payment.car || 'N/A'}
+                                    </div>
+                                    <div class="booking-detail">
+                                        <span>Pickup:</span> ${formatDate(payment.pickupDate)}
+                                    </div>
+                                    <div class="booking-detail">
+                                        <span>Return:</span> ${formatDate(payment.returnDate)}
+                                    </div>
+                                    <div class="booking-detail">
+                                        <span>Total Amount:</span> ${formatCurrency(totalAmount)}
+                                    </div>
+                                    <div class="booking-detail">
+                                        <span>Remaining:</span> ${formatCurrency(remainingAmount)}
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        `;
+                    });
+
+                historyContainer.innerHTML = paymentsHTML;
+                } catch (error) {
+                    console.error('Error loading payment history:', error);
+                historyContainer.innerHTML = `
+                    <div class="error-message">
+                        <i class="ri-error-warning-line"></i>
+                        <h3>Error Loading Payments</h3>
+                        <p>There was an error loading your payment history. Please try again later.</p>
+                    </div>
+                `;
+                }
+        }
+
+            // Check authentication state
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    await loadUserData(user.uid);
+                    await loadPaymentHistory(user.uid);
+                } else {
+                    window.location.href = '../login/login.html';
+                }
+            });
+
+            // Handle logout
+            const logoutBtn = document.getElementById('logout-btn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    auth.signOut().then(() => {
+                        window.location.href = '../index.html';
+                    }).catch((error) => {
+                        console.error('Error signing out:', error);
+                    });
+                });
+            }
+
+            // Account dropdown functionality
+            const accountBtn = document.getElementById('account-btn');
+            const accountMenu = document.getElementById('account-menu');
+
+            accountBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                accountMenu.style.display = accountMenu.style.display === 'none' ? 'block' : 'none';
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!accountBtn.contains(e.target) && !accountMenu.contains(e.target)) {
+                    accountMenu.style.display = 'none';
+                }
+        });
+    </script>
+</body>
+</html> 

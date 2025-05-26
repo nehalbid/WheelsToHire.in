@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rental Details - WheelsToHire</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        body {
+            background: #36454f;
+            color: #E0E0E0;
+        }
+
+        .profile-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            background: #1f2022;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border-radius: 20px;
+        }
+
+        .profile-sidebar {
+            background: #1f2022;
+            padding: 2rem;
+            border-radius: 15px;
+            height: fit-content;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-info {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            border: 3px solid #646cff;
+            padding: 3px;
+        }
+
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-email {
+            color: #9a8989;
+            font-size: 0.9rem;
+        }
+
+        .profile-menu {
+            list-style: none;
+            padding: 0;
+        }
+
+        .profile-menu li {
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 1rem;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .profile-menu a:hover {
+            background: rgba(100, 108, 255, 0.1);
+            color: #646cff;
+        }
+
+        .profile-menu a.active {
+            background: #646cff;
+            color: white;
+        }
+
+        .profile-content {
+            background: #1f2022;
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title {
+            color: #E0E0E0;
+            font-size: 1.8rem;
+            margin: 0;
+        }
+
+        .back-btn {
+            padding: 0.5rem 1rem;
+            background: #646cff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #535bf2;
+        }
+
+        .rental-details {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .detail-section {
+            background: #1f2022;
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-title {
+            color: #E0E0E0;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .detail-label {
+            color: #9a8989;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-value {
+            color: #E0E0E0;
+            font-size: 1.1rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background: rgba(46, 213, 115, 0.1);
+            color: #2ed573;
+        }
+
+        .status-completed {
+            background: rgba(255, 159, 67, 0.1);
+            color: #ff9f43;
+        }
+
+        .status-cancelled {
+            background: rgba(255, 71, 87, 0.1);
+            color: #ff4757;
+        }
+
+        .loading-skeleton {
+            background: linear-gradient(90deg, #2a2a2a 25%, #3a3a3a 50%, #2a2a2a 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 4px;
+            height: 20px;
+            margin-bottom: 10px;
+        }
+
+        @keyframes loading {
+            0% {
+                background-position: 200% 0;
+            }
+            100% {
+                background-position: -200% 0;
+            }
+        }
+
+        .error-message {
+            text-align: center;
+            padding: 2rem;
+            color: #ff4757;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav style="border-bottom: 2px solid rgba(255, 255, 255, 0.1); background: #36454f;">
+            <div class="nav__header">
+                <div class="nav__logo">
+                    <a href="#" class="logo" style="color: #E0E0E0;">
+                        <img src="../assets/logo-white.png" alt="logo" class="logo-white" style="width: 100px; height: auto; display: block;" />
+                        <span style="color: #E0E0E0;">WheelsToHire.in</span>
+                    </a>
+                </div>
+                <div class="nav__menu__btn" id="menu-btn">
+                    <i class="ri-menu-line" style="color: #E0E0E0;"></i>
+                </div>
+            </div>
+            <ul class="nav__links" id="nav-links" style="color: #E0E0E0;">
+                <li><a href="userdashboard.html" style="color: #E0E0E0;"><i class="ri-home-4-line"></i> Home</a></li>
+                <li><a href="deals.html" style="color: #E0E0E0;"><i class="ri-car-line"></i> Rental Deals</a></li>
+            </ul>
+            <div class="nav__btns">
+                <div class="dropdown">
+                    <button class="btn dropdown-btn" id="account-btn">
+                        <i class="ri-user-3-line"></i> Account
+                    </button>
+                    <ul class="dropdown-menu" id="account-menu">
+                        <li><a href="#" id="logout-btn"><i class="ri-logout-box-line"></i> Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="profile-container">
+        <div class="profile-sidebar">
+            <div class="profile-info">
+                <div class="profile-pic">
+                    <img src="../assets/logo-white.png" alt="Profile Picture">
+                </div>
+                <h2 class="profile-name">Loading...</h2>
+                <p class="profile-email">Loading...</p>
+            </div>
+            <ul class="profile-menu">
+                <li><a href="profile.html"><i class="ri-user-line"></i> Personal Information</a></li>
+                <li><a href="rental-history.html" class="active"><i class="ri-history-line"></i> Rental History</a></li>
+                <li><a href="payment-history.html"><i class="ri-money-dollar-circle-line"></i> Payment History</a></li>
+                <li><a href="payment-methods.html"><i class="ri-bank-card-line"></i> Payment Methods</a></li>
+            </ul>
+        </div>
+
+        <div class="profile-content">
+            <div class="page-header">
+                <h1 class="page-title">Rental Details</h1>
+                <button class="back-btn" onclick="window.location.href='rental-history.html'">
+                    <i class="ri-arrow-left-line"></i> Back to History
+                </button>
+            </div>
+
+            <div class="rental-details" id="rental-details">
+                <!-- Loading skeleton -->
+                <div class="detail-section">
+                    <div class="loading-skeleton"></div>
+                    <div class="loading-skeleton"></div>
+                    <div class="loading-skeleton"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js';
+        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js';
+        import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js';
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBdnjbQsoM_C4UjiEIRjLPYlVE3RudyA10",
+            authDomain: "carrent-853d4.firebaseapp.com",
+            databaseURL: "https://carrent-853d4-default-rtdb.firebaseio.com",
+            projectId: "carrent-853d4",
+            storageBucket: "carrent-853d4.firebasestorage.app",
+            messagingSenderId: "452122312279",
+            appId: "1:452122312279:web:1efeadd0e949ac9d3eed12",
+            measurementId: "G-W2S2QJ0NNE"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Function to load user data
+        async function loadUserData(userId) {
+            try {
+                const userDoc = await getDoc(doc(db, 'users', userId));
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    document.querySelector('.profile-name').textContent = userData.fullName || 'User';
+                    document.querySelector('.profile-email').textContent = userData.email || '';
+                    
+                    if (userData.profilePicture) {
+                        document.querySelector('.profile-pic img').src = userData.profilePicture;
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+            }
+        }
+
+        // Function to format date
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            const options = { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+
+        // Function to format currency
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: 'INR',
+                minimumFractionDigits: 0
+            }).format(amount);
+        }
+
+        // Function to load rental details
+        async function loadRentalDetails(rentalId) {
+            const detailsContainer = document.getElementById('rental-details');
+            try {
+                const rentalDoc = await getDoc(doc(db, 'bookings', rentalId));
+                
+                if (!rentalDoc.exists()) {
+                    detailsContainer.innerHTML = `
+                        <div class="error-message">
+                            <i class="ri-error-warning-line" style="font-size: 3rem;"></i>
+                            <h3>Rental Not Found</h3>
+                            <p>The rental details you're looking for don't exist.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const rental = rentalDoc.data();
+                const statusClass = rental.status === 'active' ? 'status-active' : 
+                                  rental.status === 'completed' ? 'status-completed' : 'status-cancelled';
+
+                // Get values with fallbacks for both old and new field names
+                const carModel = rental.carName || rental.car || 'N/A';
+                const customerName = rental.customerName || rental.name || 'N/A';
+                const customerPhone = rental.customerPhone || rental.contactNumber || 'N/A';
+                const location = rental.location || rental.CarPickup || 'N/A';
+
+                detailsContainer.innerHTML = `
+                    <div class="detail-section">
+                        <h2 class="section-title">Booking Information</h2>
+                        <div class="detail-grid">
+                            <div class="detail-item">
+                                <span class="detail-label">Booking ID</span>
+                                <span class="detail-value">${rental.bookingId || 'N/A'}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Status</span>
+                                <span class="status-badge ${statusClass}">${rental.status}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Booking Date</span>
+                                <span class="detail-value">${formatDate(rental.bookingDate)}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h2 class="section-title">Car Details</h2>
+                        <div class="detail-grid">
+                            <div class="detail-item">
+                                <span class="detail-label">Car Model</span>
+                                <span class="detail-value">${carModel}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Pickup Date</span>
+                                <span class="detail-value">${formatDate(rental.pickupDate)}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Return Date</span>
+                                <span class="detail-value">${formatDate(rental.returnDate)}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h2 class="section-title">Customer Information</h2>
+                        <div class="detail-grid">
+                            <div class="detail-item">
+                                <span class="detail-label">Name</span>
+                                <span class="detail-value">${customerName}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Phone</span>
+                                <span class="detail-value">${customerPhone}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Location</span>
+                                <span class="detail-value">${location}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h2 class="section-title">Payment Information</h2>
+                        <div class="detail-grid">
+                            <div class="detail-item">
+                                <span class="detail-label">Total Amount</span>
+                                <span class="detail-value">${formatCurrency(rental.totalPrice)}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Booking Amount (25%)</span>
+                                <span class="detail-value">${formatCurrency(rental.bookingAmount || Math.round(rental.totalPrice * 0.25))}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Remaining Amount</span>
+                                <span class="detail-value">${formatCurrency(rental.remainingAmount || Math.round(rental.totalPrice * 0.75))}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Payment ID</span>
+                                <span class="detail-value">${rental.paymentId || 'N/A'}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Payment Status</span>
+                                <span class="status-badge status-success">${rental.paymentStatus || 'Completed'}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error loading rental details:', error);
+                detailsContainer.innerHTML = `
+                    <div class="error-message">
+                        <i class="ri-error-warning-line" style="font-size: 3rem;"></i>
+                        <h3>Error Loading Details</h3>
+                        <p>There was an error loading the rental details. Please try again later.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Check authentication state
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                await loadUserData(user.uid);
+                const urlParams = new URLSearchParams(window.location.search);
+                const rentalId = urlParams.get('id');
+                if (rentalId) {
+                    await loadRentalDetails(rentalId);
+                } else {
+                    document.getElementById('rental-details').innerHTML = `
+                        <div class="error-message">
+                            <i class="ri-error-warning-line" style="font-size: 3rem;"></i>
+                            <h3>Invalid Rental ID</h3>
+                            <p>No rental ID provided in the URL.</p>
+                        </div>
+                    `;
+                }
+            } else {
+                window.location.href = '../login/login.html';
+            }
+        });
+
+        // Handle logout
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                auth.signOut().then(() => {
+                    window.location.href = '../index.html';
+                }).catch((error) => {
+                    console.error('Error signing out:', error);
+                });
+            });
+        }
+
+        // Account dropdown functionality
+        const accountBtn = document.getElementById('account-btn');
+        const accountMenu = document.getElementById('account-menu');
+        
+        accountBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            accountMenu.style.display = accountMenu.style.display === 'none' ? 'block' : 'none';
+        });
+        
+        document.addEventListener('click', function(e) {
+            if (!accountBtn.contains(e.target) && !accountMenu.contains(e.target)) {
+                accountMenu.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html> 

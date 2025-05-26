@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Owner Profile - Car Rental Admin</title>
+    <link href='https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            background: #36454f;
+            color: #E0E0E0;
+        }
+
+        .profile-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 2rem;
+            background: #1f2022;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            border-radius: 20px;
+        }
+
+        .profile-sidebar {
+            background: #1f2022;
+            padding: 2rem;
+            border-radius: 15px;
+            height: fit-content;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-info {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            border: 3px solid #646cff;
+            padding: 3px;
+        }
+
+        .profile-pic img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-email {
+            color: #9a8989;
+            font-size: 0.9rem;
+        }
+
+        .profile-menu {
+            list-style: none;
+            padding: 0;
+        }
+
+        .profile-menu li {
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-menu a {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 1rem;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .profile-menu a:hover {
+            background: rgba(100, 108, 255, 0.1);
+            color: #646cff;
+        }
+
+        .profile-menu a.active {
+            background: #646cff;
+            color: white;
+        }
+
+        .profile-content {
+            background: #1f2022;
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-title {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: #E0E0E0;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #E0E0E0;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .save-btn {
+            background: #646cff;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .save-btn:hover {
+            background: #535bf2;
+        }
+
+        /* Dark mode styles */
+        body.dark {
+            background: #1f2022 !important;
+            color: #ffffff !important;
+        }
+
+        body.dark .profile-sidebar,
+        body.dark .profile-content {
+            background: #36454f !important;
+        }
+
+        body.dark .form-group input {
+            background: #1f2022 !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        body.dark .form-group input:focus {
+            border-color: #646cff !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- SIDEBAR -->
+    <section id="sidebar">
+        <a href="#" class="brand">
+            <i class='bx bxs-car'></i>
+            <span class="text">Car Rental</span>
+        </a>
+        <ul class="side-menu top">
+            <li>
+                <a href="ownerdashboard.html">
+                    <i class='bx bxs-dashboard'></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a href="bookings.html">
+                    <i class='bx bxs-calendar'></i>
+                    <span class="text">Bookings</span>
+                </a>
+            </li>
+            <li>
+                <a href="my_cars.html">
+                    <i class='bx bxs-user'></i>
+                    <span class="text">My Cars</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="side-menu">
+            <li class="active">
+                <a href="profile.html">
+                    <i class='bx bxs-cog'></i>
+                    <span class="text">Profile</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="logout">
+                    <i class='bx bxs-log-out-circle'></i>
+                    <span class="text">Logout</span>
+                </a>
+            </li>
+        </ul>
+    </section>
+
+    <!-- CONTENT -->
+    <section id="content">
+        <nav>
+            <i class='bx bx-menu'></i>
+            <form action="#">
+                <div class="form-input">
+                    <input type="search" placeholder="Search...">
+                    <button type="submit" class="search-btn"><i class='bx bx-search'></i></button>
+                </div>
+            </form>
+            <input type="checkbox" id="switch-mode" hidden>
+            <label for="switch-mode" class="switch-mode theme-toggle"><i class='bx bx-moon'></i></label>
+            <div class="profile">
+                <span class="emoji" style="font-size: 2em; cursor: pointer;" onclick="window.location.href='profile.html'">😊</span>
+            </div>
+        </nav>
+
+        <main class="profile-container">
+            <div class="profile-sidebar">
+                <div class="profile-info">
+                    <div class="profile-pic">
+                        <img src="../assets/logo-white.png" alt="Profile Picture">
+                    </div>
+                    <h2 class="profile-name">Loading...</h2>
+                    <p class="profile-email">Loading...</p>
+                </div>
+                <ul class="profile-menu">
+                    <li><a href="profile.html" class="active"><i class='bx bxs-user'></i> Personal Information</a></li>
+                    <li><a href="#password-section" class="password-link"><i class='bx bxs-lock-alt'></i> Change Password</a></li>
+                </ul>
+            </div>
+
+            <div class="profile-content">
+                <section id="personal-info">
+                    <h2 class="section-title">Personal Information</h2>
+                    <form id="profileForm">
+                        <div class="form-group">
+                            <label for="fullName">Full Name</label>
+                            <input type="text" id="fullName" name="fullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="address">Address</label>
+                            <input type="text" id="address" name="address" required>
+                        </div>
+                        <button type="submit" class="save-btn">Save Changes</button>
+                    </form>
+                </section>
+
+                <section id="password-section" style="display: none;">
+                    <h2 class="section-title">Change Password</h2>
+                    <form id="passwordForm">
+                        <div class="form-group">
+                            <label for="currentPassword">Current Password</label>
+                            <input type="password" id="currentPassword" name="currentPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="newPassword">New Password</label>
+                            <input type="password" id="newPassword" name="newPassword" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirmPassword">Confirm New Password</label>
+                            <input type="password" id="confirmPassword" name="confirmPassword" required>
+                        </div>
+                        <button type="submit" class="save-btn">Update Password</button>
+                    </form>
+                </section>
+            </div>
+        </main>
+    </section>
+
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-app.js';
+        import { getAuth, onAuthStateChanged, signOut, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-auth.js';
+        import { getFirestore, doc, getDoc, updateDoc, setDoc } from 'https://www.gstatic.com/firebasejs/9.17.1/firebase-firestore.js';
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBdnjbQsoM_C4UjiEIRjLPYlVE3RudyA10",
+            authDomain: "carrent-853d4.firebaseapp.com",
+            databaseURL: "https://carrent-853d4-default-rtdb.firebaseio.com",
+            projectId: "carrent-853d4",
+            storageBucket: "carrent-853d4.firebasestorage.app",
+            messagingSenderId: "452122312279",
+            appId: "1:452122312279:web:1efeadd0e949ac9d3eed12",
+            measurementId: "G-W2S2QJ0NNE"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Function to load user data
+        async function loadUserData(userId) {
+            try {
+                const userDoc = await getDoc(doc(db, 'owners', userId));
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    console.log('User data:', userData); // Debug log
+                    
+                    // Update profile info
+                    document.querySelector('.profile-name').textContent = userData.name || userData.fullName || 'Owner';
+                    document.querySelector('.profile-email').textContent = userData.email || '';
+                    
+                    // Update form fields
+                    document.getElementById('fullName').value = userData.name || userData.fullName || '';
+                    document.getElementById('email').value = userData.email || '';
+                    document.getElementById('phone').value = userData.phone || '';
+                    document.getElementById('address').value = userData.address || '';
+
+                    if (userData.profilePicture) {
+                        document.querySelector('.profile-pic img').src = userData.profilePicture;
+                    }
+                } else {
+                    console.log('No user document found'); // Debug log
+                    // Create initial profile if it doesn't exist
+                    const initialData = {
+                        name: auth.currentUser.displayName || '',
+                        email: auth.currentUser.email,
+                        phone: '',
+                        address: '',
+                        createdAt: new Date().toISOString()
+                    };
+                    await setDoc(doc(db, 'owners', userId), initialData);
+                    await loadUserData(userId); // Reload data after creation
+                }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+                alert('Error loading profile data. Please try again.');
+            }
+        }
+
+        // Check authentication state
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                console.log('User authenticated:', user.uid); // Debug log
+                await loadUserData(user.uid);
+            } else {
+                window.location.href = '../login/owner.html';
+            }
+        });
+
+        // Handle form submission
+        const profileForm = document.getElementById('profileForm');
+        profileForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const user = auth.currentUser;
+            if (!user) {
+                alert('Please sign in to update your profile');
+                return;
+            }
+
+            const formData = {
+                fullName: document.getElementById('fullName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                updatedAt: new Date().toISOString()
+            };
+
+            try {
+                await updateDoc(doc(db, 'owners', user.uid), formData);
+                document.querySelector('.profile-name').textContent = formData.fullName;
+                alert('Profile updated successfully!');
+            } catch (error) {
+                console.error('Error updating profile:', error);
+                alert('Error updating profile. Please try again.');
+            }
+        });
+
+        // Handle logout
+        document.querySelector('.logout').addEventListener('click', (e) => {
+            e.preventDefault();
+            signOut(auth).then(() => {
+                window.location.href = '../index.html';
+            }).catch((error) => {
+                console.error('Error signing out:', error);
+            });
+        });
+
+        // Theme toggle functionality
+        const themeToggle = document.querySelector('.theme-toggle');
+        const body = document.body;
+
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            body.classList.add(savedTheme);
+            if (savedTheme === 'dark') {
+                themeToggle.classList.replace('bx-moon', 'bx-sun');
+            }
+        }
+
+        // Theme toggle click handler
+        themeToggle.addEventListener('click', function() {
+            body.classList.toggle('dark');
+            
+            if (body.classList.contains('dark')) {
+                localStorage.setItem('theme', 'dark');
+                this.classList.replace('bx-moon', 'bx-sun');
+            } else {
+                localStorage.setItem('theme', 'light');
+                this.classList.replace('bx-sun', 'bx-moon');
+            }
+        });
+
+        // Mobile menu toggle
+        document.querySelector('.bx-menu').addEventListener('click', () => {
+            document.getElementById('sidebar').classList.toggle('hide');
+        });
+
+        // Handle password section toggle
+        document.querySelector('.password-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('personal-info').style.display = 'none';
+            document.getElementById('password-section').style.display = 'block';
+            document.querySelector('.profile-menu a.active').classList.remove('active');
+            e.target.classList.add('active');
+        });
+
+        // Handle personal info section toggle
+        document.querySelector('.profile-menu a[href="profile.html"]').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('password-section').style.display = 'none';
+            document.getElementById('personal-info').style.display = 'block';
+            document.querySelector('.profile-menu a.active').classList.remove('active');
+            e.target.classList.add('active');
+        });
+
+        // Handle password update
+        const passwordForm = document.getElementById('passwordForm');
+        passwordForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const user = auth.currentUser;
+            if (!user) {
+                alert('Please sign in to update your password');
+                return;
+            }
+
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (newPassword !== confirmPassword) {
+                alert('New passwords do not match');
+                return;
+            }
+
+            if (newPassword.length < 6) {
+                alert('New password must be at least 6 characters long');
+                return;
+            }
+
+            try {
+                // Reauthenticate user
+                const credential = EmailAuthProvider.credential(user.email, currentPassword);
+                await reauthenticateWithCredential(user, credential);
+
+                // Update password
+                await updatePassword(user, newPassword);
+
+                // Clear form
+                passwordForm.reset();
+
+                alert('Password updated successfully!');
+            } catch (error) {
+                console.error('Error updating password:', error);
+                if (error.code === 'auth/wrong-password') {
+                    alert('Current password is incorrect');
+                } else {
+                    alert('Error updating password. Please try again.');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

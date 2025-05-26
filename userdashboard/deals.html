@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+    <link rel="stylesheet" href="../styles.css" />
+    <title>Web Design Mastery | Car Rental</title>
+  </head>
+  <body style="background-color: #1f2022;">
+    <header>
+      <nav style="border-bottom: 2px solid #ffffff; background: rgba(31, 32, 34, 0.8); backdrop-filter: blur(10px);">
+        <div class="nav__header">
+          <div class="nav__logo">
+            <a href="#" class="logo" style="color: #E0E0E0;">
+              <img src="../assets/logo-white.png" alt="logo" class="logo-white" style="width: 100px; height: auto; display: block;" />
+              <span style="color: #E0E0E0;">WheelsToHire.in</span>
+            </a>
+          </div>
+          <div class="nav__menu__btn" id="menu-btn">
+            <i class="ri-menu-line"></i>
+          </div>
+        </div>
+        <ul class="nav__links" id="nav-links">
+          <li><a href="userdashboard.html" style="color: #E0E0E0; transition: all 0.3s ease; position: relative; text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);"><i class="ri-home-4-line"></i> Home</a></li>
+          <li><a href="#choose" style="color: #E0E0E0; transition: all 0.3s ease; position: relative; text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);"><i class="ri-home-line"></i> Home</a></li>
+          
+          </ul>
+          <div class="nav__btns" style="position: relative;">
+            <div class="dropdown" style="position: relative;">
+              <button class="btn dropdown-btn" id="account-btn" style="display: flex; align-items: center; gap: 5px; background: linear-gradient(135deg, #3498db, #2980b9); border: none; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); transition: all 0.3s ease; color: white; cursor: pointer;">
+                <i class="ri-user-3-line"></i> Account
+              </button>
+              <ul class="dropdown-menu" id="account-menu" style="display: none; position: absolute; right: 0; top: 100%; background: #36454f; border: 1px solid rgba(255, 255, 255, 0.1); min-width: 120px; padding: 0.2rem 0; border-radius: 6px; z-index: 99999; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); margin-top: 5px;">
+                <li><a href="profile.html" style="color: #ffffff; display: flex; align-items: center; gap: 6px; padding: 0.4rem 0.6rem; transition: all 0.3s ease; text-decoration: none; font-size: 0.85rem;"><i class="ri-user-settings-line"></i> Profile</a></li>
+                <li><a href="rental-history.html" style="color: #ffffff; display: flex; align-items: center; gap: 6px; padding: 0.4rem 0.6rem; transition: all 0.3s ease; text-decoration: none; font-size: 0.85rem;"><i class="ri-history-line"></i> Rental History</a></li>
+                <li><a href="#" id="logout-btn" style="color: #ffffff; display: flex; align-items: center; gap: 6px; padding: 0.4rem 0.6rem; transition: all 0.3s ease; text-decoration: none; font-size: 0.85rem;"><i class="ri-logout-box-line"></i> Logout</a></li>
+              </ul>
+            </div>
+          </div>
+      </nav>
+
+     
+
+     
+    <section class="deals" id="deals">
+      <div class="section__container deals__container">
+        <h2 class="section__header">Car Rental Deals</h2>
+        <p class="section__description">
+          Explore our top car rental deals, handpicked to give you the best
+          value and experience. Book now and drive your favorite ride at an
+          incredible rate!
+        </p>
+        <div class="deals__tabs">
+          <button class="btn" data-id="Tata">Tata Motors</button>
+          <button class="btn" data-id="Hyundai">Hyundai</button>
+          <button class="btn" data-id="Mahindra">Mahindra</button>
+          <button class="btn" data-id="Toyota">Totyta</button>
+          <button class="btn" data-id="Honda">Honda</button>
+          <button class="btn" data-id="Maruti">Maruti Suzuki</button>
+        </div>
+
+        <!-- Tata cars -->
+        <div id="Tata" class="tab__content">
+          <div class="deals__card">
+            <img src="https://imgd.aeplcdn.com/664x374/n/cw/ec/141867/nexon-exterior-right-front-three-quarter-71.jpeg?isig=0&q=80" alt="deals" />
+            <div class="deals__rating">
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span>(0)</span>
+            </div>
+            <h4>TATA Nexon</h4>
+            <div class="deals__card__grid">
+              <div>
+                <span><i class="ri-group-line"></i></span> 4 People
+              </div>
+              <div>
+                <span><i class="ri-steering-2-line"></i></span> Auto
+              </div>
+              <div>
+                <span><i class="ri-speed-up-line"></i></span> 150km
+              </div>
+              <div>
+                <span><i class="ri-car-line"></i></span> Petrol
+              </div>
+            </div>
+            <hr />
+            <div class="deals__card__footer">
+              <h3>Rs 1499<span>/Per Day</span></h3>
+              <a href="../cars/tata/tatanexon.html">                   <!-- redirect to details page href="tatanexon.html" -->  
+                Rent Now
+                <span><i class="ri-arrow-right-line"></i></span>
+            </a>
+            </div>
+          </div>
+          <div class="deals__card">
+            <img src="https://imgd.aeplcdn.com/664x374/ec/BD/f0/10752/img/m/Tata-Sumo-Gold-Right-Front-Three-Quarter-48868_ol.jpg?v=201711021421&q=80" alt="deals" />
+            <div class="deals__rating">
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span>(0)</span>
+            </div>
+            <h4>TATA Sumo</h4>
+            <div class="deals__card__grid">
+              <div>
+                <span><i class="ri-group-line"></i></span> 7 People
+              </div>
+              <div>
+                <span><i class="ri-steering-2-line"></i></span> Manual
+              </div>
+              <div>
+                <span><i class="ri-speed-up-line"></i></span> 150km
+              </div>
+              <div>
+                <span><i class="ri-car-line"></i></span> Diesel
+              </div>
+            </div>
+            <hr />
+            <div class="deals__card__footer">
+              <h3>Rs 1999<span>/Per Day</span></h3>
+              <a href="../cars/tata/tatasumo.html">                   <!-- redirect to details page href="tatasumo.html" -->
+                Rent Now
+                <span><i class="ri-arrow-right-line"></i></span>
+              </a>
+            </div>
+          </div>
+          <div class="deals__card">
+            <img src="https://imgd.aeplcdn.com/664x374/n/cw/ec/138895/safari-facelift-exterior-right-front-three-quarter-39.jpeg?isig=0&q=80" alt="deals" />
+            <div class="deals__rating">
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span>(0)</span>
+            </div>
+            <h4>TATA Safari</h4>
+            <div class="deals__card__grid">
+              <div>
+                <span><i class="ri-group-line"></i></span> 6 People
+              </div>
+              <div>
+                <span><i class="ri-steering-2-line"></i></span> Manual
+              </div>
+              <div>
+                <span><i class="ri-speed-up-line"></i></span> 150km
+              </div>
+              <div>
+                <span><i class="ri-car-line"></i></span> Petrol
+              </div>
+            </div>
+            <hr />
+            <div class="deals__card__footer">
+              <h3>Rs 2499<span>/Per Day</span></h3>
+              <a href="../cars/tata/tatasafari.html">                   <!-- redirect to details page href="tatasafari.html" -->
+                Rent Now
+                <span><i class="ri-arrow-right-line"></i></span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hyundai cars -->
+        <div id="Hyundai" class="tab__content">
+          <div class="deals__card">
+            <img src="https://imgd.aeplcdn.com/664x374/n/cw/ec/150603/i20-exterior-right-front-three-quarter-7.jpeg?isig=0&q=80" alt="deals" />
+            <div class="deals__rating">
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span>(0)</span>
+            </div>
+            <h4>Hyundai i20</h4>
+            <div class="deals__card__grid">
+              <div>
+                <span><i class="ri-group-line"></i></span> 4 People
+              </div>
+              <div>
+                <span><i class="ri-steering-2-line"></i></span> Manual
+              </div>
+              <div>
+                <span><i class="ri-speed-up-line"></i></span> 150km
+              </div>
+              <div>
+                <span><i class="ri-car-line"></i></span> Diesel
+              </div>
+            </div>
+            <hr />
+            <div class="deals__card__footer">
+              <h3>Rs 1499<span>/Per Day</span></h3>
+              <a href="../cars/hyundai/hyundai-i20.html">                   <!-- redirect to details page href="hyundai-i20.html" -->
+                Rent Now
+                <span><i class="ri-arrow-right-line"></i></span>
+              </a>
+            </div>
+          </div>
+          <div class="deals__card">
+            <img src="https://imgd.aeplcdn.com/664x374/n/cw/ec/121943/verna-exterior-right-front-three-quarter-101.jpeg?isig=0&q=80" alt="deals" />
+            <div class="deals__rating">
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span>(0)</span>
+            </div>
+            <h4>Hyundai Verna</h4>
+            <div class="deals__card__grid">
+              <div>
+                <span><i class="ri-group-line"></i></span> 5 People
+              </div>
+              <div>
+                <span><i class="ri-steering-2-line"></i></span> Auto
+              </div>
+              <div>
+                <span><i class="ri-speed-up-line"></i></span> 150km
+              </div>
+              <div>
+                <span><i class="ri-car-line"></i></span> Petrol
+              </div>
+            </div>
+            <hr />
+            <div class="deals__card__footer">
+              <h3>Rs 1999<span>/Per Day</span></h3>
+              <a href="../cars/hyundai/hyundai-verna.html">                   <!-- redirect to details page href="hyundai-verna.html" -->
+                Rent Now
+                <span><i class="ri-arrow-right-line"></i></span>
+              </a>
+            </div>
+          </div>
+          <div class="deals__card">
+            <img src="https://imgd.aeplcdn.com/664x374/n/cw/ec/157825/alcazar-facelift-exterior-right-front-three-quarter-10.jpeg?isig=0&q=80" alt="deals" />
+            <div class="deals__rating">
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span>(0)</span>
+            </div>
+            <h4>Hyundai Alcazar</h4>
+            <div class="deals__card__grid">
+              <div>
+                <span><i class="ri-group-line"></i></span> 7 People
+              </div>
+              <div>
+                <span><i class="ri-steering-2-line"></i></span> Manual
+              </div>
+              <div>
+                <span><i class="ri-speed-up-line"></i></span> 150km
+              </div>
+              <div>
+                <span><i class="ri-car-line"></i></span> Petrol
+              </div>
+            </div>
+            <hr />
+            <div class="deals__card__footer">
+              <h3>Rs 2499<span>/Per Day</span></h3>
+              <a href="../cars/hyundai/hyundai-alcazar.html">                   <!-- redirect to details page href="hyundai-alcazar.html" -->
+                Rent Now
+                <span><i class="ri-arrow-right-line"></i></span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mahindra cars  -->
+        <div id="Mahindra" class="tab__content">
+          <div class="deals__card">
+            <img src="https://imgd.aeplcdn.com/664x374/n/cw/ec/131179/bolero-exterior-right-front-three-quarter-2.jpeg?isig=0&q=80" alt="deals" />
+            <div class="deals__rating">
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span>(0)</span>
+            </div>
+            <h4>Mahindra Bolero</h4>
+            <div class="deals__card__grid">
+              <div>
+                <span><i class="ri-group-line"></i></span> 4 People
+              </div>
+              <div>
+                <span><i class="ri-steering-2-line"></i></span> Manual
+              </div>
+              <div>
+                <span><i class="ri-speed-up-line"></i></span> 18km/l
+              </div>
+              <div>
+                <span><i class="ri-car-line"></i></span> Diesel
+              </div>
+            </div>
+            <hr />
+            <div class="deals__card__footer">
+              <h3>Rs1499<span>/Per Day</span></h3>
+              <a href="../cars/mahindra/mahindra-bolero.html">                   <!-- redirect to details page href="mahindra-bolero.html" -->
+                Rent Now
+                <span><i class="ri-arrow-right-line"></i></span>
+              </a>
+            </div>
+          </div>
+          <div class="deals__card">
+            <img src="https://imgd.aeplcdn.com/664x374/n/cw/ec/156405/xuv-3xo-exterior-right-front-three-quarter-33.jpeg?isig=0&wm=0&q=80" alt="deals" />
+            <div class="deals__rating">
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span>(0)</span>
+            </div>
+            <h4>Mahindra 3XO</h4>
+            <div class="deals__card__grid">
+              <div>
+                <span><i class="ri-group-line"></i></span> 7 People
+              </div>
+              <div>
+                <span><i class="ri-steering-2-line"></i></span> Manual
+              </div>
+              <div>
+                <span><i class="ri-speed-up-line"></i></span> 18km/l
+              </div>
+              <div>
+                <span><i class="ri-car-line"></i></span> Diesel
+              </div>
+            </div>
+            <hr />
+            <div class="deals__card__footer">
+              <h3>Rs1999<span>/Per Day</span></h3>
+              <a href="../cars/mahindra/mahindra-3xo.html">                   <!-- redirect to details page href="mahindra-3xo.html" -->
+                Rent Now
+                <span><i class="ri-arrow-right-line"></i></span>
+              </a>
+            </div>
+          </div>
+          <div class="deals__card">
+            <img src="https://imgd.aeplcdn.com/664x374/n/cw/ec/128413/scorpio-exterior-right-front-three-quarter-47.jpeg?isig=0&q=80" alt="deals" />
+            <div class="deals__rating">
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span>(0)</span>
+            </div>
+            <h4>Mahindra Scorpio</h4>
+            <div class="deals__card__grid">
+              <div>
+                <span><i class="ri-group-line"></i></span> 7 People
+              </div>
+              <div>
+                <span><i class="ri-steering-2-line"></i></span> Manual
+              </div>
+              <div>
+                <span><i class="ri-speed-up-line"></i></span> 18km/l
+              </div>
+              <div>
+                <span><i class="ri-car-line"></i></span> Diesel
+              </div>
+            </div>
+            <hr />
+            <div class="deals__card__footer">
+              <h3>Rs2499<span>/Per Day</span></h3>
+              <a href="../cars/mahindra/mahindra-scorpio.html">                   <!-- redirect to details page href="mahindra-scorpio.html" -->
+                Rent Now
+                <span><i class="ri-arrow-right-line"></i></span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Toyota cars -->
+        <div id="Toyota" class="tab__content">
+          <div class="deals__card">
+            <img src="https://imgd.aeplcdn.com/664x374/n/cw/ec/112839/glanza-exterior-right-front-three-quarter-5.jpeg?isig=0&q=80" alt="deals" />
+            <div class="deals__rating">
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span>(0)</span>
+            </div>
+            <h4>Toyota Glanza</h4>
+            <div class="deals__card__grid">
+              <div>
+                <span><i class="ri-group-line"></i></span> 4 People
+              </div>
+              <div>
+                <span><i class="ri-steering-2-line"></i></span> Manual
+              </div>
+              <div>
+                <span><i class="ri-speed-up-line"></i></span> 18km/l
+              </div>
+              <div>
+                <span><i class="ri-car-line"></i></span> Diesel
+              </div>
+            </div>
+            <hr />
+            <div class="deals__card__footer">
+              <h3>Rs1499<span>/Per Day</span></h3>
+              <a href="../cars/toyota/toyota-glanza.html">                   <!-- redirect to details page href="toyota-glanza.html" -->
+                Rent Now
+                <span><i class="ri-arrow-right-line"></i></span>
+              </a>
+            </div>
+          </div>
+          <div class="deals__card">
+            <img src="https://imgd.aeplcdn.com/664x374/n/cw/ec/124027/urban-cruiser-hyryder-exterior-right-front-three-quarter-72.jpeg?isig=0&q=80" alt="deals" />
+            <div class="deals__rating">
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span>(0)</span>
+            </div>
+            <h4>Toyota Urban Cruiser</h4>
+            <div class="deals__card__grid">
+              <div>
+                <span><i class="ri-group-line"></i></span> 4 People
+              </div>
+              <div>
+                <span><i class="ri-steering-2-line"></i></span> Manual
+              </div>
+              <div>
+                <span><i class="ri-speed-up-line"></i></span> 18km/l
+              </div>
+              <div>
+                <span><i class="ri-car-line"></i></span> Diesel
+              </div>
+            </div>
+            <hr />
+            <div class="deals__card__footer">
+              <h3>Rs1999<span>/Per Day</span></h3>
+              <a href="../cars/toyota/toyota-uc.html">                   <!-- redirect to details page href="toyota-uc.html" -->
+                Rent Now
+                <span><i class="ri-arrow-right-line"></i></span>
+              </a>
+            </div>
+          </div>
+          <div class="deals__card">
+            <img src="https://imgd.aeplcdn.com/664x374/n/cw/ec/140809/innova-crysta-exterior-right-front-three-quarter-2.png?isig=0&q=80" alt="deals" />
+            <div class="deals__rating">
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span>(0)</span>
+            </div>
+            <h4>Toyota Innova Crysta</h4>
+            <div class="deals__card__grid">
+              <div>
+                <span><i class="ri-group-line"></i></span> 4 People
+              </div>
+              <div>
+                <span><i class="ri-steering-2-line"></i></span> Manual
+              </div>
+              <div>
+                <span><i class="ri-speed-up-line"></i></span> 18km/l
+              </div>
+              <div>
+                <span><i class="ri-car-line"></i></span> Diesel
+              </div>
+            </div>
+            <hr />
+            <div class="deals__card__footer">
+              <h3>Rs2499<span>/Per Day</span></h3>
+              <a href="../cars/toyota/toyota-innova.html">                   <!-- redirect to details page href="toyota-innova.html" -->
+                Rent Now
+                <span><i class="ri-arrow-right-line"></i></span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Honda cars-->
+        <div id="Honda" class="tab__content">
+          <div class="deals__card">
+            <img src="https://imgd.aeplcdn.com/664x374/n/cw/ec/45951/amaze-exterior-right-front-three-quarter-3.jpeg?isig=0&q=80" alt="deals" />
+            <div class="deals__rating">
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span>(0)</span>
+            </div>
+            <h4>Honda Amaze</h4>
+            <div class="deals__card__grid">
+              <div>
+                <span><i class="ri-group-line"></i></span> 4 People
+              </div>
+              <div>
+                <span><i class="ri-steering-2-line"></i></span> Manual
+              </div>
+              <div>
+                <span><i class="ri-speed-up-line"></i></span> 18km/l
+              </div>
+              <div>
+                <span><i class="ri-car-line"></i></span> Diesel
+              </div>
+            </div>
+            <hr />
+            <div class="deals__card__footer">
+              <h3>Rs1499<span>/Per Day</span></h3>
+              <a href="../cars/honda/honda-amaze.html">                   <!-- redirect to details page href="honda-amaze.html"-->
+                Rent Now
+                <span><i class="ri-arrow-right-line"></i></span>
+              </a>
+            </div>
+          </div>
+          <div class="deals__card">
+            <img src="https://imgd.aeplcdn.com/664x374/n/cw/ec/134287/city-exterior-right-front-three-quarter-77.jpeg?isig=0&q=80" alt="deals" />
+            <div class="deals__rating">
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span>(0)</span>
+            </div>
+            <h4>Honda City</h4>
+            <div class="deals__card__grid">
+              <div>
+                <span><i class="ri-group-line"></i></span> 4 People
+              </div>
+              <div>
+                <span><i class="ri-steering-2-line"></i></span> Manual
+              </div>
+              <div>
+                <span><i class="ri-speed-up-line"></i></span> 18km/l
+              </div>
+              <div>
+                <span><i class="ri-car-line"></i></span> Diesel
+              </div>
+            </div>
+            <hr />
+            <div class="deals__card__footer">
+              <h3>Rs 1999<span>/Per Day</span></h3>
+              <a href="../cars/honda/honda-city.html">                   <!-- redirect to details page href="honda-city.html" -->
+                Rent Now
+                <span><i class="ri-arrow-right-line"></i></span>
+              </a>
+            </div>
+          </div>
+          <div class="deals__card">
+            <img src="https://imgd.aeplcdn.com/664x374/n/cw/ec/142515/elevate-exterior-right-front-three-quarter-21.jpeg?isig=0&q=80" alt="deals" />
+            <div class="deals__rating">
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span>(0)</span>
+            </div>
+            <h4>Honda Elevate</h4>
+            <div class="deals__card__grid">
+              <div>
+                <span><i class="ri-group-line"></i></span> 4 People
+              </div>
+              <div>
+                <span><i class="ri-steering-2-line"></i></span> Manual
+              </div>
+              <div>
+                <span><i class="ri-speed-up-line"></i></span> 18km/l
+              </div>
+              <div>
+                <span><i class="ri-car-line"></i></span> Diesel
+              </div>
+            </div>
+            <hr />
+            <div class="deals__card__footer">
+              <h3>Rs 2499<span>/Per Day</span></h3>
+              <a href="../cars/honda/honda-elevate.html">                   <!-- redirect to details page href="honda-elevate.html"-->
+                Rent Now
+                <span><i class="ri-arrow-right-line"></i></span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+         <!--Maruti cars-->
+         <div id="Maruti" class="tab__content">
+          <div class="deals__card">
+            <img src="https://imgd.aeplcdn.com/664x374/n/cw/ec/159099/swift-exterior-right-front-three-quarter.jpeg?isig=0&q=80" alt="deals" />
+            <div class="deals__rating">
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span>(0)</span>
+            </div>
+            <h4>Maruti Swift</h4>
+            <div class="deals__card__grid">
+              <div>
+                <span><i class="ri-group-line"></i></span> 4 People
+              </div>
+              <div>
+                <span><i class="ri-steering-2-line"></i></span> Manual
+              </div>
+              <div>
+                <span><i class="ri-speed-up-line"></i></span> 18km/l
+              </div>
+              <div>
+                <span><i class="ri-car-line"></i></span> Diesel
+              </div>
+            </div>
+            <hr />
+            <div class="deals__card__footer">
+              <h3>Rs1499<span>/Per Day</span></h3>
+              <a href="../cars/maruti-suzuki/maruti-swift.html">                   <!-- redirect to details page href="maruti-swift.html" -->
+                Rent Now
+                <span><i class="ri-arrow-right-line"></i></span>
+              </a>
+            </div>
+          </div>
+          <div class="deals__card">
+            <img src="https://imgd.aeplcdn.com/664x374/n/cw/ec/123185/grand-vitara-exterior-right-front-three-quarter-4.jpeg?isig=0&q=80" alt="deals" />
+            <div class="deals__rating">
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span>(0)</span>
+            </div>
+            <h4>Maruri Grand Vitara</h4>
+            <div class="deals__card__grid">
+              <div>
+                <span><i class="ri-group-line"></i></span> 5 People
+              </div>
+              <div>
+                <span><i class="ri-steering-2-line"></i></span> Manual
+              </div>
+              <div>
+                <span><i class="ri-speed-up-line"></i></span> 18km/l
+              </div>
+              <div>
+                <span><i class="ri-car-line"></i></span> Diesel
+              </div>
+            </div>
+            <hr />
+            <div class="deals__card__footer">
+              <h3>Rs 1999<span>/Per Day</span></h3>
+              <a href="../cars/maruti-suzuki/maruti-gvitara.html">                   <!-- redirect to details page href="maruti-gvitara.html" -->
+                Rent Now
+                <span><i class="ri-arrow-right-line"></i></span>
+              </a>
+            </div>
+          </div>
+          <div class="deals__card">
+            <img src="https://imgd.aeplcdn.com/370x208/n/7xhrg3a_1573869.jpg?q=80" alt="deals" />
+            <div class="deals__rating">
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span><i class="ri-star-line"></i></span>
+              <span>(0)</span>
+            </div>
+            <h4>Maruti XL6</h4>
+            <div class="deals__card__grid">
+              <div>
+                <span><i class="ri-group-line"></i></span> 6 People
+              </div>
+              <div>
+                <span><i class="ri-steering-2-line"></i></span> Manual
+              </div>
+              <div>
+                <span><i class="ri-speed-up-line"></i></span> 18km/l
+              </div>
+              <div>
+                <span><i class="ri-car-line"></i></span> Diesel
+              </div>
+            </div>
+            <hr />
+            <div class="deals__card__footer">
+              <h3>Rs 2499<span>/Per Day</span></h3>
+              <a href="../cars/maruti-suzuki/maruti-xl6.html">                   <!-- redirect to details page href="maruti-xl6.html"-->
+                Rent Now
+                <span><i class="ri-arrow-right-line"></i></span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </section>
+
+
+    <footer class="footer" style="background: rgba(54, 69, 79, 0.9); backdrop-filter: blur(10px); border-top: 2px solid rgba(255, 255, 255, 0.1);">
+      <div class="section__container footer__container">
+        <div class="footer__col">
+          <div class="footer__logo">
+            <a href="#" class="logo">
+              <img src="../assets/logo-white.png" alt="logo" />
+              <span style="color: #E0E0E0;">Car Rental</span>
+            </a>
+          </div>
+          <p style="color: #E0E0E0;">
+            We're here to provide you with the best vehicles and a seamless
+            rental experience. Stay connected for updates, special offers, and
+            more. Drive with confidence!
+          </p>
+          <ul class="footer__socials">
+            <li>
+              <a href="#" style="color: #E0E0E0;"><i class="ri-facebook-fill"></i></a>
+            </li>
+            <li>
+              <a href="#" style="color: #E0E0E0;"><i class="ri-twitter-fill"></i></a>
+            </li>
+            <li>
+              <a href="#" style="color: #E0E0E0;"><i class="ri-linkedin-fill"></i></a>
+            </li>
+            <li>
+              <a href="#" style="color: #E0E0E0;"><i class="ri-instagram-line"></i></a>
+            </li>
+            <li>
+              <a href="#" style="color: #E0E0E0;"><i class="ri-youtube-fill"></i></a>
+            </li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4 style="color: #E0E0E0;">Our Services</h4>
+          <ul class="footer__links">
+            <li><a href="#home" style="color: #E0E0E0;">Home</a></li>
+            <li><a href="#about" style="color: #E0E0E0;">About</a></li>
+            <li><a href="#deals" style="color: #E0E0E0;">Rental Deals</a></li>
+            <li><a href="#choose" style="color: #E0E0E0;">Why Choose Us</a></li>
+            <li><a href="#client" style="color: #E0E0E0;">Testimonials</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4 style="color: #E0E0E0;">Vehicle Model</h4>
+          <ul class="footer__links">
+            <li><a href="#deals" style="color: #E0E0E0;">Tata Safari</a></li>
+            <li><a href="#deals" style="color: #E0E0E0;">Hyundai Alcazar</a></li>
+            <li><a href="#deals" style="color: #E0E0E0;">Mahindra Scorpio</a></li>
+            <li><a href="#deals" style="color: #E0E0E0;">Toyota Innova Crysta</a></li>
+            <li><a href="#deals" style="color: #E0E0E0;">Maruti Ertiga</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4 style="color: #E0E0E0;">Contact</h4>
+          <ul class="footer__links">
+            <li>
+              <a href="#" style="color: #E0E0E0;">
+                <span><i class="ri-phone-fill"></i></span> +91 9572****31
+              </a>
+            </li>
+            <li>
+              <a href="#" style="color: #E0E0E0;">
+                <span><i class="ri-map-pin-fill"></i></span> Ranchi , Jharkhand , India
+              </a>
+            </li>
+            <li>
+              <a href="#" style="color: #E0E0E0;">
+                <span><i class="ri-mail-fill"></i></span> info@WheelsToHire.in
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bar" style="background: #1f2022; color: #E0E0E0;">
+        Copyright © 2024 WheelsToHire.in | All rights reserved.
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="../main.js"></script>
+    <script>
+      // Add hover animation to nav links
+      document.querySelectorAll('.nav__links a').forEach(link => {
+        link.addEventListener('mouseover', function() {
+          this.style.transform = 'scale(1.1)';
+          this.style.color = '#8bf48b';
+        });
+        
+        link.addEventListener('mouseout', function() {
+          this.style.transform = 'scale(1)';
+          this.style.color = 'white';
+        });
+      });
+
+      // Account dropdown functionality
+      document.addEventListener('DOMContentLoaded', function() {
+        const accountBtn = document.getElementById('account-btn');
+        const accountMenu = document.getElementById('account-menu');
+        
+        // Toggle dropdown
+        accountBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          const isVisible = accountMenu.style.display === 'block';
+          accountMenu.style.display = isVisible ? 'none' : 'block';
+        });
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+          if (!accountBtn.contains(e.target) && !accountMenu.contains(e.target)) {
+            accountMenu.style.display = 'none';
+          }
+        });
+        
+        // Add hover effects to dropdown items
+        const dropdownItems = accountMenu.querySelectorAll('a');
+        dropdownItems.forEach(item => {
+          item.addEventListener('mouseover', function() {
+            this.style.backgroundColor = 'rgba(0, 0, 0, 0.2)';
+            this.style.transform = 'translateX(5px)';
+          });
+          item.addEventListener('mouseout', function() {
+            this.style.backgroundColor = 'transparent';
+            this.style.transform = 'translateX(0)';
+          });
+        });
+
+        // Handle logout
+        const logoutBtn = document.getElementById('logout-btn');
+        if (logoutBtn) {
+          logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            localStorage.removeItem('isLoggedIn');
+            localStorage.removeItem('userData');
+            window.location.href = '../index.html';
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
