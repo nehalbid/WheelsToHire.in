@@ -14,7 +14,7 @@
         <nav style="border-bottom: 2px solid #ffffff; background: rgba(31, 32, 34, 0.8); backdrop-filter: blur(10px);">
             <div class="nav__header">
               <div class="nav__logo">
-                <a href="#" class="logo" style="color: #E0E0E0;">
+                <a href="../../userdashboard/userdashboard.html" class="logo" style="color: #E0E0E0;">
                   <img src="../../assets/logo-white.png" alt="logo" class="logo-white" style="width: 100px; height: auto; display: block;" />
                   <span style="color: #E0E0E0;">WheelsToHire.in</span>
                 </a>
@@ -24,15 +24,19 @@
               </div>
             </div>
             <ul class="nav__links" id="nav-links">
-              <li><a href="../../userdashboard/deals.html" style="color: #E0E0E0; transition: all 0.3s ease; position: relative; text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);"><i class="ri-car-line"></i>  Rental Deals</a></li>
-              <li><a href="#choose" style="color: #E0E0E0; transition: all 0.3s ease; position: relative; text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);"><i class="ri-home-line"></i> Home</a></li>
-              
-              </ul>
-            <div class="nav__btns">
-              <div class="dropdown">
-                <button class="btn dropdown-btn" id="account-btn" style="display: flex; align-items: center; gap: 5px; background: linear-gradient(135deg, #3498db, #2980b9); border: none; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); transition: all 0.3s ease; color: white;" onclick="window.location.href='../login/login.html'">
+              <li><a href="../../userdashboard/userdashboard.html" style="color: #E0E0E0; transition: all 0.3s ease; position: relative; text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);"><i class="ri-home-4-line"></i> Home</a></li>
+              <li><a href="../../userdashboard/deals.html" style="color: #E0E0E0; transition: all 0.3s ease; position: relative; text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);"><i class="ri-car-line"></i> Rental Deals</a></li>
+            </ul>
+            <div class="nav__btns" style="position: relative;">
+              <div class="dropdown" style="position: relative;">
+                <button class="btn dropdown-btn" id="account-btn" style="display: flex; align-items: center; gap: 5px; background: linear-gradient(135deg, #3498db, #2980b9); border: none; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); transition: all 0.3s ease; color: white; cursor: pointer;">
                   <i class="ri-user-3-line"></i> Account
                 </button>
+                <ul class="dropdown-menu" id="account-menu" style="display: none; position: absolute; right: 0; top: 100%; background: #36454f; border: 1px solid rgba(255, 255, 255, 0.1); min-width: 120px; padding: 0.2rem 0; border-radius: 6px; z-index: 99999; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); margin-top: 5px;">
+                  <li><a href="../../userdashboard/profile.html" style="color: #ffffff; display: flex; align-items: center; gap: 6px; padding: 0.4rem 0.6rem; transition: all 0.3s ease; text-decoration: none; font-size: 0.85rem;"><i class="ri-user-settings-line"></i> Profile</a></li>
+                  <li><a href="../../userdashboard/rental-history.html" style="color: #ffffff; display: flex; align-items: center; gap: 6px; padding: 0.4rem 0.6rem; transition: all 0.3s ease; text-decoration: none; font-size: 0.85rem;"><i class="ri-history-line"></i> Rental History</a></li>
+                  <li><a href="#" id="logout-btn" style="color: #ffffff; display: flex; align-items: center; gap: 6px; padding: 0.4rem 0.6rem; transition: all 0.3s ease; text-decoration: none; font-size: 0.85rem;"><i class="ri-logout-box-line"></i> Logout</a></li>
+                </ul>
               </div>
             </div>
           </nav>
@@ -121,6 +125,39 @@
             </div>
         </div>
     </main>
-    <script src="honda-amaze.js"></script>  
+    <script src="honda-amaze.js"></script>
+    <script>
+      // Menu button functionality
+      const menuBtn = document.getElementById('menu-btn');
+      const navLinks = document.getElementById('nav-links');
+      
+      menuBtn.addEventListener('click', () => {
+        navLinks.classList.toggle('show');
+      });
+
+      // Account dropdown functionality
+      const accountBtn = document.getElementById('account-btn');
+      const accountMenu = document.getElementById('account-menu');
+      
+      accountBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        accountMenu.style.display = accountMenu.style.display === 'none' ? 'block' : 'none';
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!accountBtn.contains(e.target) && !accountMenu.contains(e.target)) {
+          accountMenu.style.display = 'none';
+        }
+      });
+
+      // Logout functionality
+      const logoutBtn = document.getElementById('logout-btn');
+      logoutBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Add your logout logic here
+        window.location.href = '../../login/login.html';
+      });
+    </script>
 </body>
 </html>

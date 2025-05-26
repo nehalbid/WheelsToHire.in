@@ -62,8 +62,8 @@ function handleRentNow() {
     localStorage.setItem('customerEmail', 'john@example.com'); // Replace with actual form data
     localStorage.setItem('customerPhone', '1234567890'); // Replace with actual form data
     
-    // Redirect to the booking slip page with query parameters
-    const car = "Mahindra 3XO"; // Car name or model
-    const bookingUrl = `../../booking/booking-slip.html?car=${encodeURIComponent(car)}&pickupDate=${encodeURIComponent(pickupDate)}&returnDate=${encodeURIComponent(returnDate)}&totalPrice=${encodeURIComponent('Rs ' + totalPrice)}`;
+    // Redirect to the rental form page with query parameters
+    const car = "Mahindra XUV 3XO"; // Car name or model
+    const bookingUrl = `../../booking/rentalform.html?car=${encodeURIComponent(car)}&pickupDate=${encodeURIComponent(pickupDate)}&returnDate=${encodeURIComponent(returnDate)}&totalPrice=${encodeURIComponent('Rs ' + totalPrice)}`;
     window.location.href = bookingUrl;
 }
